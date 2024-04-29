@@ -1,28 +1,29 @@
-# Load the necessary packages
-library(sf)
-library(readr)
-library(spatialsample)
-library(ggplot2)
-
-# Load specie occurrences file
-DataSpecies_0 <- st_read("./INPUT/VECTOR/p-psa.gpkg")
-
-DataSpecies <- subset(DataSpecies_0, presence == 1)
-
-# Carica il grid A 50 m
-grid <- read_sf("./INPUT/VECTOR/reticolo_50m_mascked.gpkg")
-
-# Intersezione tra i punti di DataSpecies e le celle del raster
-intersection <- st_intersection(DataSpecies, grid)
-
-# Rimuovi i duplicati basati sulle coordinate della cella del raster
-unique_points <- intersection[!duplicated(intersection$id), ]
-
-#--------------------------
-
+# # Load the necessary packages
+# library(sf)
+# library(readr)
+# library(spatialsample)
+# library(ggplot2)
+# 
+# # Load specie occurrences file
+# DataSpecies_0 <- st_read("./INPUT/VECTOR/p-psa_adj.gpkg")
+# 
+# DataSpecies <- subset(DataSpecies_0, presence == 1)
+# 
+# # # Carica il grid A 50 m
+# # grid <- read_sf("./INPUT/VECTOR/reticolo_50m_mascked.gpkg")
+# # 
+# # # Intersezione tra i punti di DataSpecies e le celle del raster
+# # intersection <- st_intersection(DataSpecies, grid)
+# # 
+# # # Rimuovi i duplicati basati sulle coordinate della cella del raster
+# # unique_points <- intersection[!duplicated(intersection$id), ]
+# # 
+# # write_csv(unique_points, "./INPUT/CSV/p-psa_adj.csv")
+# #--------------------------
+# 
 # lim <- read_sf("./INPUT/VECTOR/limite_amministrativo_paulilatino_32632.gpkg")
 # 
-# set.seed(4321)
+# set.seed(1234)
 # 
 # #  Separa il  train dal test
 # # Create splits
@@ -51,17 +52,16 @@ unique_points <- intersection[!duplicated(intersection$id), ]
 #                      values = colors,
 #                      labels = labels)
 # 
-# 
 # # Save the train
 # write_sf(train_data, "./INPUT/VECTOR/train_data.gpkg")
 # # Save the test
 # write_sf(test_data, "./INPUT/VECTOR/test_data.gpkg")
-
-######################  train preparation   ############################
-
+# 
+# ######################  train preparation   ############################
+# 
 # # Estrai le coordinate x e y
-# x_train <- st_coordinates(unique_points$geom)[, 1]
-# y_train <- st_coordinates(unique_points$geom)[, 2]
+# x_train <- st_coordinates(train_data$geom)[, 1]
+# y_train <- st_coordinates(train_data$geom)[, 2]
 # 
 # # Aggiungi le coordinate x e y al dataframe
 # train_data$x <- x_train

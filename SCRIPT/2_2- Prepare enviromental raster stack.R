@@ -7,15 +7,6 @@ library(grid)
 
 myExpl_0 <- rast("./INPUT/RASTER/enviromental_50m.tiff")
 
-# myExpl_0$phytophthora <- NULL
-
-# myExpl <- subset(myExpl_0, c("aspect", "roads", "texture", "fla", "tpi", "rivers",
-#                              "twi","soc", "nitrogen", "elevation", "green"))
-
-
-# myExpl <- subset(myExpl_0, c("clay", "nitrogen", "sand",
-#                              "fla","rivers", "roads", 'aspect')) 
-
 myExpl <- subset(myExpl_0, c("clay", "tpi",
                              "fla","rivers", "roads", 'aspect')) 
 
@@ -25,6 +16,7 @@ myExpl <- subset(myExpl_0, c("clay", "tpi",
 
 ##############  GRAFICI DELLA DENSITà DEI VALORI DELLE VARIABILI NELLE OCCURRENCE##################
 
+#############################################################################################
 
 # Extract the value of the predictor data where we have the phytophtora
 myExpl_0 <- rast("./INPUT/RASTER/enviromental_50m.tiff")
@@ -114,60 +106,3 @@ num_righe <- ceiling(num_variabili / 8)
 
 # Visualizza tutti i grafici in un unico grande foglio
 grid.arrange(grobs = plot_list, ncol = 8, nrow = num_righe)
-
-
-
-
-
-  
-# # Seleziona solo i layer specificati
-# myExpl <- subset(myExpl_0, c("tpi", "roads", "green", "nitrogen", "twi", "rivers"))
-# 
-# 
-# myExpl <- subset(myExpl_0, c("tpi", "roads", "gndvi", "nitrogen", "twi", "rivers"))
-
-# myExpl <- myExpl_0
-
-library(terra)
-
-# Extract the value of the predictor data where we have the phytophtora
-myExpl_0 <- rast("./INPUT/RASTER/enviromental_50m.tiff")
-
-myExpl_0$pH <- myExpl_0$pH/10
-
-myExpl_0$phytophthora <- NULL
-
-myExpl_0$texture <- NULL
-
-myExpl <- myExpl_0
-
-output_directory <- "./INPUT/RASTER/ASCII"
-mask <- st_read("./INPUT/VECTOR/mask.gpkg")
-
-# Numero di layer
-n_layers <- nlyr(myExpl)
-
-# Iterazione attraverso i layer e salvataggio in formato ASCII
-for (i in 1:n_layers) {
-  # Estrai il layer
-  layer <- myExpl[[i]]
-  
-  # Ritaglia il layer con la maschera
-  layer_masked <- mask(layer, mask)
-  
-  # Sostituisci i valori NA con -9999
-  layer_masked[is.na(layer_masked)] <- -9999
-  
-  # Genera il nome del file ASCII
-  filename <- file.path(output_directory, paste0(names(myExpl)[i], ".asc"))
-  
-  # Salva il layer in formato ASCII
-  writeRaster(layer, filename, overwrite = TRUE)
-}
-
-
-
-  
-
-
-
