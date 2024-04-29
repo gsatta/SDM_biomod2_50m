@@ -29,3 +29,4 @@ myResp_test <- as.numeric(test[["presence"]])
 
 # Get corresponding XY coordinates
 myRespXY_test <- test[, c('x', 'y')]
+

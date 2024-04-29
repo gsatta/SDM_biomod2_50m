@@ -7,10 +7,9 @@ library(grid)
 
 myExpl_0 <- rast("./INPUT/RASTER/enviromental_50m.tiff")
 
-myExpl <- subset(myExpl_0, c("clay", "tpi",
-                             "fla","rivers", "roads", 'aspect')) 
-
-
+myExpl <- subset(myExpl_0, c("clay", "sand", "fla",
+                             "rivers", "roads", 'aspect',
+                             'nitrogen')) 
 
 ##################################################################################
 
