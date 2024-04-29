@@ -19,3 +19,32 @@ myBiomodData <- BIOMOD_FormatingData(expl.var = myExpl,
 myBiomodData
 
 plot(myBiomodData)
+
+
+# Assicurati che bm.format@PA.table sia caricato nel tuo ambiente R
+
+# Definisci i nomi delle colonne disponibili all'interno di bm.format@PA.table
+PA_used <- colnames(myBiomodData@PA.table)
+
+# Definisci i vettori per ciascun modello che indicano quali colonne di pseudo-assenza utilizzare
+{
+CTA <- c("PA1")
+FDA <- c("PA1")
+GBM <- c("PA1")
+RF <- c("PA1")
+XGBOOST <- c("PA1")
+MARS <- c("PA2")
+SRE <- c("PA2")
+GLM <- c("PA3")
+GAM <- c("PA3")
+MAXENT <- c("PA3")
+MAXNET <- c("PA3")
+}
+
+# Costruisci la lista models.pa contenente questi vettori per ciascun modello
+models.pa <- list(CTA = CTA, FDA = FDA, GBM = GBM, RF = RF, XGBOOST = XGBOOST, 
+                  MARS = MARS, SRE = SRE, 
+                  GLM = GLM, GAM = GAM, MAXENT = MAXENT, MAXNET = MAXNET  )
+
+
+

@@ -6,8 +6,8 @@
 # Load all packages if necessary
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr)
 
-# Load, if necessary, the previous model file biomod output
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240427_1417_51.models.out"))
+# Load, if necessary, the previous model
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240429_1921_07.models.out"))
 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
@@ -15,16 +15,15 @@ rm(list = c(bm_out_file, 'bm_out_file'))
 ############################ Get evaluations ###################################
 
 # Get evaluation scores & variables importance
-models_score <- get_evaluations(myBiomodModelOut)
+evaluations_df <- get_evaluations(myBiomodModelOut)
 var_imp <- get_variables_importance(myBiomodModelOut)
 
 evaluations_df <-  as.data.frame(models_score)
 
 # Filtrare il dataframe escludendo le righe con algo = "SRE" o "MAXNET"
-evaluations_df <- evaluations_df[!(evaluations_df$algo %in% c("SRE", "MAXNET")), ]
+# evaluations_df <- evaluations_df[!(evaluations_df$algo %in% c("SRE", "MAXNET")), ]
 
-#################################################
-
+################################################
 
 # Definisci la lista delle metriche
 metrics <- c("calibration", "validation")
@@ -64,7 +63,7 @@ for (metric in metrics) {
     
     # Filtra i dati per gli algoritmi specifici per ogni PA
     if (pa == "PA1") {
-      pa_df <- pa_df[pa_df$algo %in% c("CTA", "FDA", "GBM", "RF", "ANN", "XGBOOST"), ]
+      pa_df <- pa_df[pa_df$algo %in% c("CTA", "FDA", "GBM", "RF", "XGBOOST"), ]
     } else if (pa == "PA2") {
       pa_df <- pa_df[pa_df$algo %in% c("MARS", "SRE"), ]
     } else if (pa == "PA3") {

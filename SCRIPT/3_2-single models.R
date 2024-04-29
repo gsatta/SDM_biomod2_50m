@@ -84,6 +84,7 @@ myBiomodModelOut <- BIOMOD_Modeling(
   modeling.id = as.character(format(Sys.time(), "%Y%m%d_%H%M_%S")),
   models = c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF",
               "SRE", "XGBOOST"),
+  models.pa = models.pa,
   CV.strategy = 'user.defined',
   CV.user.table = cv_k,
   var.import = 3,
