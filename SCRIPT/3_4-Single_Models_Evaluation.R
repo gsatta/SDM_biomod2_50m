@@ -4,10 +4,10 @@
 
 ################################################################################
 # Load all packages if necessary
-library(gridExtra);library(cowplot);library(ggpubr);library(dplyr)
+library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
 # Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240429_1921_07.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240430_1251_44.models.out"))
 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
@@ -17,8 +17,6 @@ rm(list = c(bm_out_file, 'bm_out_file'))
 # Get evaluation scores & variables importance
 evaluations_df <- get_evaluations(myBiomodModelOut)
 var_imp <- get_variables_importance(myBiomodModelOut)
-
-evaluations_df <-  as.data.frame(models_score)
 
 # Filtrare il dataframe escludendo le righe con algo = "SRE" o "MAXNET"
 # evaluations_df <- evaluations_df[!(evaluations_df$algo %in% c("SRE", "MAXNET")), ]
@@ -73,7 +71,7 @@ for (metric in metrics) {
     # Crea il grafico a dispersione con deviazione standard come linea
     pa_plot <- ggplot(pa_df, aes(x = mean_value.y, y = mean_value.x, color = algo, group = interaction(PA, algo))) +
       geom_point(size = 1.5) +
-      geom_line(size = 1) +
+      geom_line(linewidth = 1) +
       geom_crossbar(aes(ymin = mean_value.x - sd_value.x, ymax = mean_value.x + sd_value.x), width = 0, fatten = 2) +
       geom_crossbar(aes(xmin = mean_value.y - sd_value.y, xmax = mean_value.y + sd_value.y), width = 0, fatten = 2) +
       labs(x = "ROC", y = "TSS") +

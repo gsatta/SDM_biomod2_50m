@@ -1,15 +1,20 @@
+################################################################################
+
+#                        Prepare Data and Parameters
+
+################################################################################
+
+# Load the necessary packages
 library(biomod2)
 
 
-n_PA_3 <- length(myResp_train) 
+n_PA_3 <- length(myResp) 
 
 
 # Format Data with pseudo - absences: random method
 myBiomodData <- BIOMOD_FormatingData(expl.var = myExpl,
-                                     resp.var = myResp_train,
-                                     resp.xy = myRespXY_train,
-                                     eval.expl.var = myResp_test,
-                                     eval.resp.xy =	myRespXY_test,
+                                     resp.var = myResp,
+                                     resp.xy = myRespXY,
                                      resp.name = "Phytophthora",
                                      PA.nb.rep = 3,
                                      PA.nb.absences = c(n_PA_3, 100, 1000),
@@ -18,10 +23,7 @@ myBiomodData <- BIOMOD_FormatingData(expl.var = myExpl,
                                      dir.name = getwd())
 myBiomodData
 
-plot(myBiomodData)
-
-
-# Assicurati che bm.format@PA.table sia caricato nel tuo ambiente R
+# plot(myBiomodData)
 
 # Definisci i nomi delle colonne disponibili all'interno di bm.format@PA.table
 PA_used <- colnames(myBiomodData@PA.table)
