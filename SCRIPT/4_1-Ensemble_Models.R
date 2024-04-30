@@ -66,7 +66,7 @@ mappa <- mappa$Phytophthora_EMmeanByROC_mergedData_mergedRun_mergedAlgo/1000
 
 plot(mappa$Phytophthora_EMmeanByROC_mergedData_mergedRun_mergedAlgo, col = terrain.colors(100)) #1
 # Sovrapposizione dei punti sul raster
-points(myRespXY_train, col = "red")
+points(myRespXY, col = "red")
 # Disegna i bordi del poligono
 lines(focolai, col = "red")
 lines(lim, col = "black")
