@@ -11,10 +11,6 @@ library(terra)
 myExpl_0 <- rast("./INPUT/RASTER/enviromental_50m.tiff")
 
 # # Get only the selected variables
-# myExpl <- subset(myExpl_0, c("clay", "sand", "fla",
-#                              "rivers", "roads", 'aspect',
-#                              'nitrogen')) 
-
 myExpl <- subset(myExpl_0, c("nitrogen", "sand", "fla",
                              "rivers", "roads", 'aspect',
                              'BIO16')) 

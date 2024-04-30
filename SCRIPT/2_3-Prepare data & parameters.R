@@ -32,7 +32,6 @@ PA_used <- colnames(myBiomodData@PA.table)
 {
 CTA <- c("PA1")
 FDA <- c("PA1")
-GBM <- c("PA1")
 RF <- c("PA1")
 XGBOOST <- c("PA1")
 MARS <- c("PA2")
@@ -41,6 +40,8 @@ GLM <- c("PA3")
 GAM <- c("PA3")
 MAXENT <- c("PA3")
 MAXNET <- c("PA3")
+GBM <- c("PA3")
+
 }
 
 # Costruisci la lista models.pa contenente questi vettori per ciascun modello
