@@ -7,7 +7,7 @@
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
 # Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240430_1626_40.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240501_1439_25.models.out"))
 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
@@ -44,8 +44,7 @@ for (metric in metrics) {
     summarise(mean_value = mean(get(metric)),
               sd_value = ifelse(n() >= 2, sd(get(metric)), NA))
   
-  
-  # Filtra i dati per la metrica TSS
+    # Filtra i dati per la metrica TSS
   mean_sd_df_metric <- mean_sd_df %>%
     filter(metric.eval == "TSS")
   
@@ -104,9 +103,14 @@ arranged_plots_calibration <- grid.arrange(grobs = plot_list_calibration, ncol =
 # Crea il layout dei grafici per il validation
 arranged_plots_validation <- grid.arrange(grobs = plot_list_validation, ncol = 2)
 
+# Organizza i due layout uno sopra l'altro
+final_layout <- grid.arrange(arranged_plots_calibration, arranged_plots_validation, nrow = 2)
+
 # Visualizza il layout dei grafici
 print(arranged_plots_calibration)
 print(arranged_plots_validation)
+
+print(final_layout)
 
 
 ##################################
