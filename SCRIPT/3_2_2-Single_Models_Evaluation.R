@@ -6,11 +6,11 @@
 # Load all packages if necessary
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
-# Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240501_1439_25.models.out"))
-
-myBiomodModelOut <- get(bm_out_file)
-rm(list = c(bm_out_file, 'bm_out_file'))
+## Load, if necessary, the previous model
+# (bm_out_file <- load("./Phytophthora/Phytophthora.20240506_1646_46.models.out"))
+# 
+# myBiomodModelOut <- get(bm_out_file)
+# rm(list = c(bm_out_file, 'bm_out_file'))
 
 ############################ Get evaluations ###################################
 
@@ -18,11 +18,6 @@ rm(list = c(bm_out_file, 'bm_out_file'))
 evaluations_df <- get_evaluations(myBiomodModelOut)
 var_imp <- get_variables_importance(myBiomodModelOut)
 
-
-# Evaluate presence only models
-evaluations_df <- BIOMOD_PresenceOnly(bm.mod = myBiomodModelOut, 
-                                      bg.env = myExpl,
-                                      perc = 0.9)
 
 # Filtrare il dataframe escludendo le righe con algo = "SRE" o "MAXNET"
 # evaluations_df <- evaluations_df[!(evaluations_df$algo %in% c("SRE", "MAXNET")), ]
@@ -118,19 +113,21 @@ print(final_layout)
 # Represent evaluation scores & variables importance
 bm_PlotEvalMean(bm.out = myBiomodModelOut, 
                 group.by = c('algo'), 
-                dataset = "validation", 
-                do.plot = TRUE, 
+                dataset = "calibration", 
+                do.plot = TRUE,
+                metric.eval = c("BOYCE", "SR"),
                 xlim = c(0, 1),  # Modifica i limiti dell'asse x
                 ylim = c(0, 1),  # Modifica i limiti dell'asse y
-                main = "Mean Evaluation Scores")  # Modifica il titolo del grafico
+                main = "Mean Evaluation Scores - calibration")  # Modifica il titolo del grafico
 
 bm_PlotEvalMean(bm.out = myBiomodModelOut, 
-                group.by = c('PA'), 
+                group.by = c('algo'), 
                 dataset = "validation", 
                 do.plot = TRUE, 
+                metric.eval = c("BOYCE", "SR"),
                 xlim = c(0, 1),  # Modifica i limiti dell'asse x
                 ylim = c(0, 1),  # Modifica i limiti dell'asse y
-                main = "Mean Evaluation Scores")  # Modifica il titolo del grafico
+                main = "Mean Evaluation Scores - validation")  # Modifica il titolo del grafico
 
 bm_PlotEvalBoxplot(bm.out = myBiomodModelOut, 
                    group.by = c('algo', 'PA'), 
@@ -139,6 +136,41 @@ bm_PlotEvalBoxplot(bm.out = myBiomodModelOut,
 
 bm_PlotEvalBoxplot(bm.out = myBiomodModelOut, group.by = c('algo', 'run'))
 
+library(gridExtra)
+library(ggplot2)
 
 
+# Rimuovere le righe con valori non definiti
+evaluations_df_plot <- evaluations_df[!is.na(evaluations_df$calibration), ]
+
+# Creare una lista di grafici per ogni valore unico nella colonna "metric.eval"
+plots <- lapply(unique(evaluations_df_plot$metric.eval), function(metric) {
+  # Filtrare il dataframe per il valore specifico di metric.eval
+  df <- evaluations_df_plot[evaluations_df_plot$metric.eval == metric, ]
+  
+  # Creare il boxplot per la calibrazione
+  plot_calibration <- ggplot(df, aes(x = algo, y = calibration)) +
+    geom_boxplot() +
+    labs(x = "Algoritmo", y = "Calibration", title = paste("Calibration - ", metric)) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  # Creare il boxplot per la validazione
+  plot_validation <- ggplot(df, aes(x = algo, y = validation)) +
+    geom_boxplot() +
+    labs(x = "Algoritmo", y = "Validation", title = paste("Validation - ", metric)) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  # Ritornare una lista contenente i due boxplot
+  return(list(plot_calibration, plot_validation))
+})
+
+library(cowplot)
+
+# Estrarre i singoli grafici dalla lista di liste
+plots_flat <- unlist(plots, recursive = FALSE)
+
+# Organizzare i boxplot in una griglia
+arranged <- plot_grid(plotlist = plots_flat, nrow = 2)
+
+arranged
 
