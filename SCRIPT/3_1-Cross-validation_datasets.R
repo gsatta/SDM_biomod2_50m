@@ -5,7 +5,103 @@
 ################################################################################
 
 # Load the necessary packages
-library(sf); library(blockCV); library(biomod2)
+library(sf); library(blockCV); library(biomod2); library(caret); library(sf)
+
+set.seed(9999)
+
+# Converti myResp_train in un oggetto sf
+myResp_train_sf <- st_as_sf(myResp_train)
+
+# Esegui la cross-validation e crea le suddivisioni
+splits <- cv_spatial(
+  x = myResp_train_sf,
+  column = "presence",
+  size = 1000,
+  r = myExpl,
+  k = 10,
+  biomod2 = T,
+  report = T,
+)
+
+cv_similarity(cv = splits, # the environmental clustering
+              x = myResp_train_sf, 
+              r = myExpl, 
+              progress = FALSE)
+
+cv_spatial_autocor(r = myExpl, 
+                   column =  "presence",
+                   plot = TRUE)
+
+# Modifica la tabella per avere 3 PA e 10 RUN
+biomod_table <- splits$biomod_table
+
+# Stampare la nuova tabella
+print(biomod_table)
+
+# Creazione di un nuovo dataframe vuoto per i risultati
+new_biomod_table <- data.frame(matrix(ncol = ncol(biomod_table) * 3, nrow = nrow(myBiomodData@PA.table)))
+colnames(new_biomod_table) <- paste(rep(paste0("_PA", 1:3), each = ncol(biomod_table)), rep(colnames(biomod_table), 3), sep = "_")
+
+new_biomod_table <- matrix(NA, nrow = nrow(biomod_table), ncol = ncol(biomod_table) * 3)
+
+for (i in 1:ncol(biomod_table)) {
+  new_biomod_table[, (3 * i - 2):(3 * i)] <- biomod_table[, i]
+}
+
+
+new_biomod_table
+
+cv_table <- new_biomod_table
+
+cv_table <- bm_CrossValidation(bm.format = myBiomodData,
+                           strategy = "kfold",
+                           k = 5,
+                           nb.rep = 2,
+                           do.full.models = TRUE)
+ 
+# Esegui di nuovo la funzione bm_CrossValidation
+bm_CrossValidation(
+  myBiomodData,
+  strategy = "user.defined",
+  user.table = cv_table,
+  env.var = NULL,
+  do.full.models = TRUE
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # k-fold selection
 # cv_k <- bm_CrossValidation_kfold(bm.format = myBiomodData,

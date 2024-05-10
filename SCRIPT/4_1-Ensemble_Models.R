@@ -2,15 +2,14 @@
 myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
                                       models.chosen = 'all',
                                       em.by = 'all',
-                                      # em.algo = c('EMmean', 'EMmedian', 'EMcv', 'EMci', 'EMca', 'EMwmean'),
-                                      em.algo = c('EMmean', 'EMmedian'),
-                                      metric.select = c('ROC'),
-                                      metric.select.thresh = c(0.8),
-                                      metric.eval = c('TSS', 'ROC'),
+                                      em.algo = c('EMmean', 'EMmedian', 'EMcv', 'EMci', 'EMca', 'EMwmean'),
+                                      metric.select = c('ROC', 'TSS'),
+                                      metric.select.thresh = c(0.8, 0.8),
+                                      metric.select.dataset	= "evaluation",
+                                      metric.eval = c('KAPPA','TSS', 'ROC'),
                                       var.import = 3,
                                       EMci.alpha = 0.05,
                                       EMwmean.decay = 'proportional',
-                                      nb.cpu = 4,
                                       do.progress = TRUE)
 myBiomodEM
 
@@ -46,9 +45,8 @@ bm_PlotResponseCurves(bm.out = myBiomodEM,
 
 # # Project ensemble models (building single projections)
 myBiomodEMProj <- BIOMOD_EnsembleForecasting(bm.em = myBiomodEM,
-                                             proj.name = 'CurrentEM_2',
+                                             proj.name = 'CurrentEM_09-05-24',
                                              new.env = myExpl,
-                                             nb.cpu = 4,
                                              models.chosen = 'all',
                                              metric.binary = 'all',
                                              metric.filter = 'all',

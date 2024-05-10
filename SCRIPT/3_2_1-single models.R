@@ -1,48 +1,48 @@
 ################################################################################
 
-#                                  Run Single Models
+#                             Run Single Models
 
 ################################################################################
 
 #################### Prepare ascii data for Maxent #############################
-{
-# Percorso al file maxent.jar
-path_to_maxent.jar <- file.path(getwd(), "maxent.jar")
-
-# Cartella dei file ASCII
-ascii_folder <- "./INPUT/RASTER/ASCII_standard"
-
-# Elimina la cartella temporanea e tutti i suoi contenuti
-unlink("./INPUT/RASTER/maxent_background_data",
-       recursive = TRUE)
-
-# Estrai i nomi dei layer senza estensione
-layer_names <- gsub("\\.asc$", "", names(myExpl))
-
-# Lista dei file .asc che corrispondono ai nomi dei layer
-selected_files <- list.files(ascii_folder, pattern = "\\.asc$")[basename(list.files(ascii_folder, pattern = "\\.asc$")) %in% paste0(layer_names, ".asc")]
-
-# Crea la cartella per i file di background di Maxent
-dir.create("./INPUT/RASTER/maxent_background_data")
-
-# Controlla se la directory esiste, altrimenti creala
-maxent_background_folder <- "./INPUT/RASTER/maxent_background_data"
-if (!dir.exists(maxent_background_folder)) {
-  dir.create(maxent_background_folder)
-}
-
-# Aggiungi il percorso completo dei file
-selected_files <- file.path(ascii_folder, selected_files)
-
-# Copia i file selezionati nella nuova cartella sovrascrivendo i file esistenti
-file.copy(from = selected_files, 
-          to = maxent_background_folder, 
-          overwrite = TRUE)
-
-# Imposta il nuovo percorso per i file .asc
-maxent.background.dat.dir <- maxent_background_folder
-list.files(maxent.background.dat.dir)
-}
+# {
+# # Percorso al file maxent.jar
+# path_to_maxent.jar <- file.path(getwd(), "maxent.jar")
+# 
+# # Cartella dei file ASCII
+# ascii_folder <- "./INPUT/RASTER/ASCII"
+# 
+# # Elimina la cartella temporanea e tutti i suoi contenuti
+# unlink("./INPUT/RASTER/maxent_background_data",
+#        recursive = TRUE)
+# 
+# # Estrai i nomi dei layer senza estensione
+# layer_names <- gsub("\\.asc$", "", names(myExpl))
+# 
+# # Lista dei file .asc che corrispondono ai nomi dei layer
+# selected_files <- list.files(ascii_folder, pattern = "\\.asc$")[basename(list.files(ascii_folder, pattern = "\\.asc$")) %in% paste0(layer_names, ".asc")]
+# 
+# # Crea la cartella per i file di background di Maxent
+# dir.create("./INPUT/RASTER/maxent_background_data")
+# 
+# # Controlla se la directory esiste, altrimenti creala
+# maxent_background_folder <- "./INPUT/RASTER/maxent_background_data"
+# if (!dir.exists(maxent_background_folder)) {
+#   dir.create(maxent_background_folder)
+# }
+# 
+# # Aggiungi il percorso completo dei file
+# selected_files <- file.path(ascii_folder, selected_files)
+# 
+# # Copia i file selezionati nella nuova cartella sovrascrivendo i file esistenti
+# file.copy(from = selected_files,
+#           to = maxent_background_folder,
+#           overwrite = TRUE)
+# 
+# # Imposta il nuovo percorso per i file .asc
+# maxent.background.dat.dir <- maxent_background_folder
+# list.files(maxent.background.dat.dir)
+# }
 
 ########################### Modelling options ##################################
 # # Set the modelling options
@@ -76,14 +76,30 @@ list.files(maxent.background.dat.dir)
 #  )
 
 
-allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "SRE", "XGBOOST")
+allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST")
 
+user.rf <- list('_allData_allRun' = list(type = 'classification', importance = TRUE, 
+                                         nodesize = 10, oob.prox = T, 
+                                         mtry = 2))
+
+user.maxent <- list('_allData_allRun' = list(visible = TRUE))
+
+user.XGBOOST <- list('_allData_allRun' = list(
+                                              objective = "binary:logistic",
+                                              params =list(max_depth = 10, eta = 0.3),
+                                              nrounds = 10, subsample = 0.7,
+                                              missing = -9999))
+
+user.val <- list(RF.binary.randomForest.randomForest = user.rf,
+                 MAXENT.binary.MAXENT.MAXENT = user.maxent,
+                 XGBOOST.binary.xgboost.xgboost = user.XGBOOST)
 
 # bigboss parameters
 myBiomodOption <- bm_ModelingOptions(data.type = 'binary',
                             models = allModels,
-                            strategy = 'bigboss')
-
+                            strategy = "user.defined",
+                            user.base = 'bigboss',
+                            user.val = user.val)
 
 ############################# Run the single models ############################
 # single models
@@ -97,10 +113,9 @@ myBiomodModelOut <- BIOMOD_Modeling(
   CV.nb.rep	= 2,
   CV.k = 5,
   var.import = 3,
-  metric.eval = c("FAR", "SR", "BOYCE"),
+  metric.eval = c("FAR", "SR", "BOYCE", "ROC", "TSS", "KAPPA", "ACCURACY", "BIAS"),
   seed.val = 123,
   do.progress = TRUE,
-  nb.cpu = 3
 )
 
 myCalibLines <- get_calib_lines(myBiomodModelOut)

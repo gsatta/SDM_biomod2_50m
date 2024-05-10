@@ -1,0 +1,218 @@
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 17:55:38 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 17:56:32 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 17:56:48 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 17:57:58 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 17:58:42 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:00:11 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:00:25 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:01:20 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 5
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+5
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 5
+
+**New *.csv file creation:**
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:01:30 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 5
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+5
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 5
+
+**New *.csv file creation:**
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:01:35 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 5
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+5
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 5
+
+**New *.csv file creation:**
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:01:42 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 5
+
+Elapsed time for thinning completion
+0 0 0.23 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+5
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 5
+
+**New *.csv file creation:**
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:02:20 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+1
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 1
+
+**New *.csv file creation:**
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:03:21 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+1
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 1
+
+**New *.csv file creation:**
+Created new output directory: ./INPUT/CSV/thinned_data.csv
+Writing file: ./INPUT/CSV/thinned_data.csv/thinned_data_thin1.csv
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:04:41 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 0.5
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+1
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 1
+
+**New *.csv file creation:**
+Created new output directory: ./INPUT/CSV/THINNED_DATA
+Writing file: ./INPUT/CSV/THINNED_DATA/thinned_data_thin1.csv
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:05:35 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 1
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0 0.08 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+1
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 1
+
+**New *.csv file creation:**
+Writing new *.csv files to output directory: ./INPUT/CSV/THINNED_DATA
+./INPUT/CSV/THINNED_DATA/thinned_data_thin1_new.csv ' already exists. Renaming file 
+                                   to avoid overwriting.
+Writing file: ./INPUT/CSV/THINNED_DATA/thinned_data_thin1_new.csv
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:05:51 2024
+********************************************** 
+ Beginning Spatial Thinning.
+ Script Started at: Tue May  7 18:05:53 2024
+There appear to be more than one species name in this *.csv file.
+Only using species name: 1
+
+Thinning Parameter Used (in km): 1
+Number of replicates of thinning script: 1
+
+Elapsed time for thinning completion
+0 0.02 0.07 NA NA
+
+Number of data.frames per locations retained
+loc.cnt df.freq
+110
+1
+Maximum number of records after thinning: 110
+Number of data.frames with max records: 1
+
+**New *.csv file creation:**
+Writing new *.csv files to output directory: ./INPUT/CSV/THINNED_DATA
+./INPUT/CSV/THINNED_DATA/thinned_data_thin1_new.csv ' already exists. Renaming file 
+                                   to avoid overwriting.
+./INPUT/CSV/THINNED_DATA/thinned_data_thin1_new_new.csv ' already exists. Renaming file 
+                                   to avoid overwriting.
+Writing file: ./INPUT/CSV/THINNED_DATA/thinned_data_thin1_new_new.csv
