@@ -6,9 +6,9 @@
 # Load all packages if necessary
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
-# # ## Load, if necessary, the previous model
-# (bm_out_file <- load("./Phytophthora/Phytophthora.20240510_18_44_37.models.out"))
-# #
+# #Load, if necessary, the previous model
+# (bm_out_file <- load("./Phytophthora/Phytophthora.20240510_1844_37.models.out"))
+
 # myBiomodModelOut <- get(bm_out_file)
 # rm(list = c(bm_out_file, 'bm_out_file'))
 
@@ -16,8 +16,6 @@ library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biom
 
 # Get evaluation scores & variables importance
 evaluations_df <- get_evaluations(myBiomodModelOut)
-var_imp <- get_variables_importance(myBiomodModelOut)
-
 
 # Filtrare il dataframe escludendo le righe con algo = "SRE" o "MAXNET"
 # evaluations_df <- evaluations_df[!(evaluations_df$algo %in% c("SRE", "MAXNET")), ]
@@ -25,12 +23,11 @@ var_imp <- get_variables_importance(myBiomodModelOut)
 ################################################
 
 # Definisci la lista delle metriche
-metrics <- c("calibration", "validation")
-
+metrics <- c("calibration", "validation", "evaluation")
 # Crea una lista per memorizzare i grafici
 plot_list_calibration <- list()
 plot_list_validation <- list()
-
+plot_list_evaluation <- list()
 # Itera attraverso le metriche
 for (metric in metrics) {
   # Calcola la media e la deviazione standard per ogni combinazione di PA, algoritmo e metrica
@@ -39,7 +36,7 @@ for (metric in metrics) {
     summarise(mean_value = mean(get(metric)),
               sd_value = ifelse(n() >= 2, sd(get(metric)), NA))
   
-    # Filtra i dati per la metrica TSS
+  # Filtra i dati per la metrica TSS
   mean_sd_df_metric <- mean_sd_df %>%
     filter(metric.eval == "TSS")
   
@@ -86,11 +83,14 @@ for (metric in metrics) {
     # Aggiungi il grafico alla lista corrispondente alla metrica
     if (metric == "calibration") {
       plot_list_calibration[[paste(pa, metric, sep = "_")]] <- pa_plot
-    } else {
+    } else if (metric == "validation") {
       plot_list_validation[[paste(pa, metric, sep = "_")]] <- pa_plot
+    } else if (metric == "evaluation") {
+      plot_list_evaluation[[paste(pa, metric, sep = "_")]] <- pa_plot
     }
   }
 }
+
 
 # Crea il layout dei grafici per il calibration
 arranged_plots_calibration <- grid.arrange(grobs = plot_list_calibration, ncol = 2)
@@ -98,12 +98,19 @@ arranged_plots_calibration <- grid.arrange(grobs = plot_list_calibration, ncol =
 # Crea il layout dei grafici per il validation
 arranged_plots_validation <- grid.arrange(grobs = plot_list_validation, ncol = 2)
 
+# Crea il layout dei grafici per il evaluation
+arranged_plots_evaluation <- grid.arrange(grobs = plot_list_evaluation, ncol = 2)
+
 # Organizza i due layout uno sopra l'altro
-final_layout <- grid.arrange(arranged_plots_calibration, arranged_plots_validation, nrow = 2)
+final_layout <- grid.arrange(arranged_plots_calibration, 
+                             arranged_plots_validation,
+                             arranged_plots_evaluation, nrow = 2)
 
 # Visualizza il layout dei grafici
 print(arranged_plots_calibration)
 print(arranged_plots_validation)
+print(arranged_plots_evaluation)
+
 
 print(final_layout)
 

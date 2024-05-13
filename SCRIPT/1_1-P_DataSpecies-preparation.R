@@ -14,6 +14,7 @@ DataSpecies_0 <- st_read("./INPUT/VECTOR/p-psa_adj.gpkg")
 # Rimuovi i valori mancanti dal dataframe DataSpecies_0
 DataSpecies_0 <- na.omit(DataSpecies_0)
 
+
 # DataSpecies<- subset(DataSpecies_0, presence == 1)
 
 absences <- subset(DataSpecies_0, presence == 0)
@@ -31,10 +32,8 @@ unique_points_P <- intersection_P[!duplicated(intersection_P$id), ]
 intersection_A <- st_intersection(absences, grid)
 # Rimuovi i duplicati basati sulle coordinate della cella del raster
 unique_points_A <- intersection_A[!duplicated(intersection_A$id), ]
-
 # Unisci i due insiemi di dati
 unique_points <- rbind(unique_points_P, unique_points_A)
-
 
 #############
 
@@ -48,9 +47,8 @@ train_data <- unique_points %>%
 
 # Estrai casualmente il restante 30% dei dati, inclusi i punti con presence == 0 e i punti con presence == 1 rimanenti
 test_data <- unique_points %>%
-  filter(!(id %in% presence_1_sampled$id)) %>%
-  sample_n(106 - num_presence_1, replace = FALSE)
-
+  filter(!(id %in% train_data$id)) %>%
+  sample_n(nrow(unique_points) - nrow(train_data), replace = FALSE)
 train <- train_data %>%
   select(c(geom, presence))
 

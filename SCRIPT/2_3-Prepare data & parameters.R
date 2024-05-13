@@ -23,6 +23,14 @@ myBiomodData <- BIOMOD_FormatingData(expl.var = myExpl,
                                      dir.name = getwd())
 myBiomodData
 
+
+
+
+# k-fold selection
+cv.k <- bm_CrossValidation(bm.format = myBiomodData,
+                           strategy = "kfold",
+                           nb.rep = 2,
+                           k = 5)
 # plot(myBiomodData)
 
 # Definisci i nomi delle colonne disponibili all'interno di bm.format@PA.table

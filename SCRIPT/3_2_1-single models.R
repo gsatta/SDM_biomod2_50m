@@ -80,7 +80,7 @@ allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "
 
 user.rf <- list('_allData_allRun' = list(type = 'classification', importance = TRUE, 
                                          nodesize = 10, oob.prox = T, 
-                                         mtry = 2))
+                                         mtry = 2, oob.prox = T))
 
 user.maxent <- list('_allData_allRun' = list(visible = TRUE))
 
