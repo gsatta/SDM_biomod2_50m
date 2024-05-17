@@ -30,6 +30,9 @@ rm(list = ls())
 
 ###  whit the cross validation and the train and test data#####
 
+# Clear the environment
+rm(list = ls())
+
 myResp_train <- vect("./INPUT/VECTOR/train_data.gpkg")
  
 myResp_test <- vect("./INPUT/VECTOR/test_data.gpkg")

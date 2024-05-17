@@ -3,8 +3,6 @@
 #                            Ensemble Models Evaluation AUC CURVE
 
 ################################################################################
-
-
 ## formale response variable 
 form.dat <- get_formal_data(myBiomodModelOut, 'resp.var')
 length(form.dat)

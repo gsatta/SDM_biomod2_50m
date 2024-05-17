@@ -79,20 +79,36 @@
 allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST")
 
 user.rf <- list('_allData_allRun' = list(type = 'classification', importance = TRUE, 
-                                         nodesize = 10, oob.prox = T, 
-                                         mtry = 2, oob.prox = T))
+                                         nodesize = 1, oob.prox = T, 
+                                         mtry = 2))
 
 user.maxent <- list('_allData_allRun' = list(visible = TRUE))
 
-user.XGBOOST <- list('_allData_allRun' = list(
-                                              objective = "binary:logistic",
-                                              params =list(max_depth = 10, eta = 0.3),
-                                              nrounds = 10, subsample = 0.7,
+user.XGBOOST <- list('_allData_allRun' = list(objective = "binary:logistic",
+                                              params =list(max_depth = 5, eta = 0.2, gamma = 1 ),
+                                              nrounds = 20, subsample = 0.5,
                                               missing = -9999))
+
+form.GLM <- bm_MakeFormula(resp.name = myBiomodData@sp.name,
+                           expl.var = head(myBiomodData@data.env.var),
+                           type = 's_smoother',
+                           interaction.level = 0)
+
+user.GLM <- list('_allData_allRun' = list(formula = form.GLM))
+
+
+form.GAM <- bm_MakeFormula(resp.name = myBiomodData@sp.name,
+                           expl.var = head(myBiomodData@data.env.var),
+                           type = 's_smoother',
+                           interaction.level = 0)
+
+user.GAM <- list('_allData_allRun' = list(formula = form.GAM))
 
 user.val <- list(RF.binary.randomForest.randomForest = user.rf,
                  MAXENT.binary.MAXENT.MAXENT = user.maxent,
-                 XGBOOST.binary.xgboost.xgboost = user.XGBOOST)
+                 XGBOOST.binary.xgboost.xgboost = user.XGBOOST,
+                 GLM.binary.stats.glm= user.GLM,
+                 GAM.binary.mgcv.gam= user.GAM)
 
 # bigboss parameters
 myBiomodOption <- bm_ModelingOptions(data.type = 'binary',
@@ -123,18 +139,3 @@ plot(myBiomodData, calib.lines = myCalibLines)
 
 
 get_formal_data(myBiomodModelOut)
-
-free(myBiomodModelOut)
-
-
-
-
-
-
-
-
-
-
-
-
-

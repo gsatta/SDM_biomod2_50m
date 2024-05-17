@@ -14,31 +14,71 @@ DataSpecies_0 <- st_read("./INPUT/VECTOR/p-psa_adj.gpkg")
 # Rimuovi i valori mancanti dal dataframe DataSpecies_0
 DataSpecies_0 <- na.omit(DataSpecies_0)
 
-
-# DataSpecies<- subset(DataSpecies_0, presence == 1)
-
 absences <- subset(DataSpecies_0, presence == 0)
 DataSpecies <- subset(DataSpecies_0, presence == 1)
 
-# Carica il grid A 50 m
-grid <- read_sf("./INPUT/VECTOR/reticolo_50m_mascked.gpkg")
+# Carica il grid A 200 m
+# grid <- read_sf("./INPUT/VECTOR/reticolo_200m_filtered.gpkg")
 
-# Intersezione tra i punti di DataSpecies e le celle del raster
-intersection_P <- st_intersection(DataSpecies, grid)
-# Rimuovi i duplicati basati sulle coordinate della cella del raster
-unique_points_P <- intersection_P[!duplicated(intersection_P$id), ]
+grid <- read_sf("./INPUT/VECTOR/reticolo_250m.gpkg")
 
-# Intersezione tra i punti di DataSpecies e le celle del raster
-intersection_A <- st_intersection(absences, grid)
-# Rimuovi i duplicati basati sulle coordinate della cella del raster
-unique_points_A <- intersection_A[!duplicated(intersection_A$id), ]
+# Funzione per selezionare casualmente un punto da ciascuna cella della griglia
+select_random_points <- function(grid, species_data) {
+  # Suddividi i dati della specie in base alla cella della griglia
+  species_in_grid <- st_join(species_data, grid)
+  
+  # Seleziona casualmente un punto da ciascuna cella della griglia
+  random_points <- species_in_grid %>%
+    group_by(id) %>%
+    sample_n(1) %>%
+    ungroup()
+  
+  return(random_points)
+}
+
+# Utilizza la funzione per selezionare casualmente un punto da ciascuna cella della griglia
+random_points_presences <- select_random_points(grid, DataSpecies)
+
+random_points_absences <- select_random_points(grid, absences)
+
+lim <- read_sf("./INPUT/VECTOR/limite_amministrativo_paulilatino_32632.gpkg")
+
+# Visualizza i punti casuali selezionati insieme alla griglia e ai dati delle specie
+ggplot() +
+  geom_sf(data = lim, fill = NA, color = "black") +
+  geom_sf(data = grid, fill = NA, color = "black") +
+  # geom_sf(data = DataSpecies, color = "blue", size = 3, shape = 20) +
+  geom_sf(data = random_points_presences, color = "red", size = 3, shape = 20) +
+  geom_sf(data = random_points_absences, color = "green", size = 3, shape = 20) +
+  theme_minimal() +
+  labs(title = "Selected points",
+       x = "Longitude",
+       y = "Latitude")
+
+write_sf(random_points_presences, "./INPUT/VECTOR/random_points_presences.gpkg")
+
+write_sf(random_points_absences, "./INPUT/VECTOR/random_points_absences.gpkg")
+
 # Unisci i due insiemi di dati
-unique_points <- rbind(unique_points_P, unique_points_A)
+unique_points <- rbind(random_points_presences, random_points_absences)
+
+##################################
+# # Intersezione tra i punti di DataSpecies e le celle del raster
+# intersection_P <- st_intersection(DataSpecies, grid)
+# # Rimuovi i duplicati basati sulle coordinate della cella del raster
+# unique_points_P <- intersection_P[!duplicated(intersection_P$id), ]
+# 
+# # Intersezione tra i punti di DataSpecies e le celle del raster
+# intersection_A <- st_intersection(absences, grid)
+# # Rimuovi i duplicati basati sulle coordinate della cella del raster
+# unique_points_A <- intersection_A[!duplicated(intersection_A$id), ]
+# # Unisci i due insiemi di dati
+# unique_points <- rbind(unique_points_P, unique_points_A)
 
 #############
 
 # Calcola il numero di punti da estrarre (70% dei dati)
-num_presence_1 <- round(nrow(unique_points) * 0.70)
+num_presence_1 <- round(nrow(random_points_presences) * 0.70)
 
 # Estrai casualmente 74 punti con presence == 1
 train_data <- unique_points %>%
@@ -49,6 +89,7 @@ train_data <- unique_points %>%
 test_data <- unique_points %>%
   filter(!(id %in% train_data$id)) %>%
   sample_n(nrow(unique_points) - nrow(train_data), replace = FALSE)
+
 train <- train_data %>%
   select(c(geom, presence))
 

@@ -8,7 +8,7 @@
 library(terra); library(sf); library(ggplot2); library(gridExtra); library(grid)
 
 # Extract the value of the predictor data where we have the Phytophthora
-myExpl_0 <- rast("./INPUT/RASTER/enviromental_50m.tiff")
+myExpl_0 <- rast("./INPUT/RASTER/environmental_50m.tif")
 
 # Scale the pH values at the own usual  scale
 myExpl_0$pH <- myExpl_0$pH/10
@@ -23,11 +23,18 @@ DataSpecies_0 <- st_read("./INPUT/VECTOR/p-psa_adj.gpkg")
 # Select only the rows where presence == 1
 DataSpecies_0 <- DataSpecies_0[DataSpecies_0$presence == 1, ]
 
+# Rimuovi le righe con NA nella colonna 'presence'
+DataSpecies_0 <- na.omit(DataSpecies_0)
+
 # Extract the pixels value of the environmental raster 
 extracted <- terra::extract(myExpl_0, DataSpecies_0)
 
 # Delete the ID column
 extracted$ID <- NULL
+
+write_csv(extracted, "./INPUT/CSV/extracted.csv")
+
+
 
 ############################ Create the graphs #################################
 
