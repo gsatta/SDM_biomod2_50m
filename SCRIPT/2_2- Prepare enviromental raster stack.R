@@ -26,5 +26,5 @@ myExpl_0 <- rast("./INPUT/RASTER/environmental_50m.tif")
 
 # # Get only the selected variables
 myExpl <- subset(myExpl_0, c("green", "BIO3",
-                             "soc", "sand", 'silt',
+                             "soc", "sand",
                              'roads',  "BIO06", "twi"))

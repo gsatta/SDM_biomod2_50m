@@ -76,7 +76,7 @@
 #  )
 
 
-allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST")
+allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
 
 user.rf <- list('_allData_allRun' = list(type = 'classification', importance = TRUE, 
                                          nodesize = 1, oob.prox = T, 
@@ -139,3 +139,4 @@ plot(myBiomodData, calib.lines = myCalibLines)
 
 
 get_formal_data(myBiomodModelOut)
+
