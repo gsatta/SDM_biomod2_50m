@@ -79,15 +79,15 @@
 allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
 
 user.rf <- list('_allData_allRun' = list(type = 'classification', importance = TRUE, 
-                                         nodesize = 1, oob.prox = T, 
+                                         nodesize = 1, oob.prox = T, ntree = 250, 
                                          mtry = 2))
 
-user.maxent <- list('_allData_allRun' = list(visible = TRUE))
+user.maxent <- list('_allData_allRun' = list(visible = TRUE,
+                                             beta_threshold = 0))
 
 user.XGBOOST <- list('_allData_allRun' = list(objective = "binary:logistic",
                                               params =list(max_depth = 5, eta = 0.2, gamma = 1 ),
-                                              nrounds = 20, subsample = 0.5,
-                                              missing = -9999))
+                                              nrounds = 20, subsample = 0.5))
 
 form.GLM <- bm_MakeFormula(resp.name = myBiomodData@sp.name,
                            expl.var = head(myBiomodData@data.env.var),

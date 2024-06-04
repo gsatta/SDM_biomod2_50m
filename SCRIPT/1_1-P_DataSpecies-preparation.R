@@ -8,6 +8,7 @@
 library(sf); library(readr); library(spatialsample); library(ggplot2); 
 library(spThin); library(dplyr)
 
+set.seed(1234)
 # Load specie occurrences file
 DataSpecies_0 <- st_read("./INPUT/VECTOR/p-psa_adj.gpkg")
 
@@ -61,6 +62,8 @@ write_sf(random_points_absences, "./INPUT/VECTOR/random_points_absences.gpkg")
 
 # Unisci i due insiemi di dati
 unique_points <- rbind(random_points_presences, random_points_absences)
+
+write_sf(unique_points, "./INPUT/VECTOR/random_unique_points.gpkg")
 
 ##################################
 # # Intersezione tra i punti di DataSpecies e le celle del raster

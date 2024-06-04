@@ -9,7 +9,6 @@ library(readr); library(sf); library(terra)
 # Clear the environment
 rm(list = ls())
 
-
 # 
 # # Clear the environment
 # rm(list = ls())

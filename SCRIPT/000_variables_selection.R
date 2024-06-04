@@ -10,18 +10,29 @@ myResp_train <- vect("./INPUT/VECTOR/train_data.gpkg")
 myResp_test <- vect("./INPUT/VECTOR/test_data.gpkg")
 
 # Load the environmental raster  at 50 m of spatial resolution
-myExpl_0_0 <- rast("./INPUT/RASTER/environmental_50m.tif")
+myExpl_0_0 <- rast("./INPUT/RASTER/environmental_50m.tiff")
 
-# Select only the non collinear variables
-# [1] "bkd"    "clay"   "sand"   "silt"   "soc"    "twi"    "tpi"    "fla"    "rivers" "roads" 
-# [11] "green"  "slope"  "BIO03"  "BIO04"  "BIO06"  "aspect"
-# > 
+# Variables      VIF
+# 1      roads 1.157318
+# 2     rivers 1.298344
+# 3     aspect 1.087185
+# 4        fla 1.289173
+# 5      slope 2.260485
+# 6        tpi 1.249363
+# 7        twi 2.310773
+# 8        soc 2.987795
+# 9    texture 1.120391
+# 10       bkd 1.801110
+# 11     BIO03 2.135846
+# 12     BIO04 1.996374
+# 13     BIO06 2.137341
+# 14     green 1.218018
+# 15        wo 1.047390
   
 # Nomi delle variabili non collineari
-non_collinear_vars <- c("bkd", "clay", "sand", "silt", "soc", 
-                        "twi", "tpi", "fla", "rivers", "roads", 
-                        "green", "slope", "BIO3", "BIO4", "BIO06", 
-                        "aspect")
+non_collinear_vars <- c("roads", "rivers", "aspect", "fla", "slope", "tpi",
+                        "twi", "soc", "texture", "bkd", "BIO03", "BIO04",
+                        "BIO06", "green", "wo")
   
 # Seleziona solo le variabili non collineari
 myExpl_0 <- myExpl_0_0[[non_collinear_vars]]
