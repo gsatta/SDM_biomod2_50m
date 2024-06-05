@@ -1,6 +1,6 @@
 # Model ensemble models
 myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
-                                      models.chosen = 'all',
+                                      models.chosen = c(),
                                       em.by = 'all',
                                       em.algo = c('EMmean', 'EMmedian'),
                                       # em.algo = c('EMmean', 'EMmedian', 'EMcv'),
@@ -15,7 +15,7 @@ myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
 myBiomodEM
 
 # Get evaluation scores & variables importance
-get_evaluations(myBiomodEM)
+evalutaionEM <- get_evaluations(myBiomodEM)
 get_variables_importance(myBiomodEM)
 
 # Represent evaluation scores & variables importance

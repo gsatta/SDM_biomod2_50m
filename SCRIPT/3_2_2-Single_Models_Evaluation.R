@@ -7,7 +7,7 @@
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
 # # #Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240529_1714_25.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240604_1618_19.models.out"))
 # 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
@@ -171,7 +171,10 @@ library(gridExtra); library(ggplot2)
 evaluations_df_plot <- evaluations_df[complete.cases(evaluations_df[, c("calibration", "validation", "evaluation")]), ]
 
 # Filtrare solo le righe con le metriche desiderate
-metrics_to_plot <- c("FAR", "SR", "BOYCE", "ROC", "TSS", "KAPPA", "ACCURACY", "BIAS")
+# metrics_to_plot <- c("FAR", "SR", "BOYCE", "ROC", "TSS", "KAPPA", "ACCURACY", "BIAS")
+
+metrics_to_plot <- c("ROC", "TSS", "ACCURACY")
+
 evaluations_df_filtered <- evaluations_df_plot[evaluations_df_plot$metric.eval %in% metrics_to_plot, ]
 
 # Creare una lista di grafici per le metriche desiderate
@@ -229,16 +232,16 @@ plots_per_sheet <- ceiling(9)
 
 # Dividere la lista di grafici in tre parti
 plots_sheet1 <- plots_flat[1:plots_per_sheet]
-plots_sheet2 <- plots_flat[(plots_per_sheet + 1):(2 * plots_per_sheet)]
-plots_sheet3 <- plots_flat[((2 * plots_per_sheet) + 1):total_plots]
+# plots_sheet2 <- plots_flat[(plots_per_sheet + 1):(2 * plots_per_sheet)]
+# plots_sheet3 <- plots_flat[((2 * plots_per_sheet) + 1):total_plots]
 
 # Creare i fogli separati
 sheet1 <- plot_grid(plotlist = plots_sheet1, ncol = 3)
-sheet2 <- plot_grid(plotlist = plots_sheet2, ncol = 3)
-sheet3 <- plot_grid(plotlist = plots_sheet3, ncol = 3)
+# sheet2 <- plot_grid(plotlist = plots_sheet2, ncol = 3)
+# sheet3 <- plot_grid(plotlist = plots_sheet3, ncol = 3)
 
 # Visualizzare i fogli separati
 print(sheet1)
-print(sheet2)
-print(sheet3)
+# print(sheet2)
+# print(sheet3)
 
