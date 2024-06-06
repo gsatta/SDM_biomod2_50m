@@ -29,6 +29,8 @@ myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
                                       do.progress = TRUE)
 myBiomodEM
 
+get_built_models(myBiomodEM)
+
 # Get evaluation scores & variables importance
 evalutaionEM <- get_evaluations(myBiomodEM)
 get_variables_importance(myBiomodEM)

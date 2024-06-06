@@ -45,7 +45,6 @@ lines(lim, col = "black")
 library(mapview)
 library(RColorBrewer)
 
-
 # Visualizza la mappa utilizzando mapview
 mapview(mappa_median, 
         col.regions = rev(brewer.pal(11, "RdYlGn")), 
@@ -68,17 +67,9 @@ mapview(mappa_median,
           legend = FALSE,
           popup = F)  
 
-          
 
+# library(ggspatial)istrict", burst = TRUE)
 
-
-
-  
-    
- 
-  
-  # library(ggspatial)istrict", burst = TRUE)
- 
 # # Crea il plot
 # ggplot() +
 #   # Plotta il raster
