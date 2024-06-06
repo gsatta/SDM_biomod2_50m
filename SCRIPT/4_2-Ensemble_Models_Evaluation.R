@@ -11,13 +11,13 @@ library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biom
 # ## Load, if necessary, the previous model
 (bm_out_file <- load("./Phytophthora/Phytophthora.20240604_1618_19.ensemble.models.out"))
 #
-myBiomodEnsembleOut <- get(bm_out_file)
+myBiomodEM <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
 
 ############################ Get evaluations ###################################
 
 # Get evaluation scores & variables importance
-evaluations_df <- get_evaluations(myBiomodEnsembleOut)
+evaluations_df <- get_evaluations(myBiomodEM)
 var_imp <- get_variables_importance(myBiomodEnsembleOut)
 
 
