@@ -16,7 +16,7 @@ rm(list = c(bm_out_file, 'bm_out_file'))
 
 # Model ensemble models
 myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
-                                      models.chosen = c(),
+                                      models.chosen = 'all',
                                       em.by = 'all',
                                       em.algo = c('EMmedian', "EMcv"),
                                       metric.select = c('ROC'),
