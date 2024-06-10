@@ -34,7 +34,8 @@ new_names <- c(
 
 # Crea il grafico con curve più fini, spessore della linea più sottile, nomi delle variabili sotto i grafici in grassetto e quadrati attorno a ogni grafico
 p_median <- ggplot(df_filtered, aes(x = expl.val, y = pred.val)) +
-  geom_smooth(method = "loess", color = "blue", fill = "gray45", se = TRUE, alpha = 0.5, linewidth  = 0.5) +
+  geom_smooth(method = "loess", color = "blue", fill = "gray45", se = TRUE, 
+              alpha = 0.5, linewidth  = 0.4) +
   facet_wrap(~ expl.name, scales = "free_x", strip.position = "bottom", labeller = labeller(expl.name = new_names)) +
   labs(x = "",
        y = "Probability (%)") +
@@ -55,3 +56,4 @@ if (!dir.exists("./GRAPHS/")) {
 
 # Salva il grafico in un file nella cartella ./GRAPHS/
 ggsave("./GRAPHS/response_curve.jpg", plot = p_median, width = 10, height = 7, dpi = 300)
+

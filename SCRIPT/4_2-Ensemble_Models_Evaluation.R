@@ -18,8 +18,6 @@ rm(list = c(bm_out_file, 'bm_out_file'))
 
 # Get evaluation scores & variables importance
 evaluations_df <- get_evaluations(myBiomodEM)
-var_imp <- get_variables_importance(myBiomodEnsembleOut)
-
 
 # Filtrare il dataframe escludendo le righe con algo = "SRE" o "MAXNET"
 # evaluations_df <- evaluations_df[!(evaluations_df$algo %in% c("SRE", "MAXNET")), ]
