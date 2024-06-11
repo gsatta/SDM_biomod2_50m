@@ -21,8 +21,9 @@ plot(myBiomodEMProj)
 mappa <- rast("./Phytophthora/proj_CurrentEM_05-06-2024/proj_CurrentEM_05-06-2024_Phytophthora_ensemble.tif")
 focolai <- read_sf("./INPUT/VECTOR/FOCOLAI.gpkg")
 lim <- read_sf("./INPUT/VECTOR/limite_amministrativo_paulilatino_32632.gpkg")
-presences <- read_sf("./INPUT/VECTOR/random_points_presences.gpkg")
-absences <- read_sf("./INPUT/VECTOR/random_points_absences.gpkg")
+unique_points <- read_sf("./INPUT/VECTOR/random_unique_points.gpkg")
+# presences <- read_sf("./INPUT/VECTOR/random_points_presences.gpkg")
+# absences <- read_sf("./INPUT/VECTOR/random_points_absences.gpkg")
 mask_wo <- read_sf("./INPUT/VECTOR/maskWO_def_ok.gpkg")
 
 mask_wo$wild_olive <- NULL
@@ -39,8 +40,8 @@ mappa_EMcv <- mappa$Phytophthora_EMcvByROC_mergedData_mergedRun_mergedAlgo
 # Plotta il raster
 plot(mappa_median, col = terrain.colors(100))
 # Sovrapposizione dei punti sul raster con i colori specificati
-points(presences, col = "red", cex = 1)
-points(absences, col = "#99cbff", cex = 1)
+points(unique_points, col = c("black", "black")[unique_points$presence + 1], pch = 21, bg = c("green", "red")[unique_points$presence + 1], cex = 1)
+# points(absences, col = "#99cbff", cex = 1)
 # Disegna i bordi del poligono
 # lines(focolai, col = "red")
 lines(lim, col = "black")
@@ -50,44 +51,50 @@ polys(mask_wo, col = "gray",  alpha= 0.5)
 library(mapview)
 library(RColorBrewer)
 
-# Visualizza la mappa utilizzando mapview
+# Creiamo una nuova colonna 'color' in unique_points per definire i colori in base a 'presence'
+unique_points$color <- ifelse(unique_points$presence == 0, "green", "red")
+
+# Ora possiamo usare questa colonna per colorare i punti nella mappa
 mapview(mappa_median, 
         col.regions = rev(brewer.pal(11, "RdYlGn")), 
         na.color = "transparent",
         layer.name = "Median Ensemble map",
-        Trim = TRUE)+
-  mapview(presences, 
-          col.regions = "red", 
-          layer.name = "Occurences",
-          popup = F) +
-  mapview(absences, 
-          col.regions = "green", 
-          layer.name = "Absences",
-          popup = F) +
+        Trim = TRUE) +
+  mapview(unique_points, 
+          col.regions = unique_points$color, 
+          legend = TRUE,
+           burst = TRUE) +
   mapview(lim, 
           alpha.regions = 0, 
           col.regions = "transparent",
           lwd = 1,
           layer.name = "Limiti",
           legend = FALSE,
-          popup = F)  
+          popup = FALSE)
+
 
 
 library(ggplot2)
-library(ggspatial)
 library(sf)
-library(ggpattern)
+library(ggspatial)
+library(terra) # utilizza il pacchetto 'terra' per la manipolazione dei raster
+library(grid)
+
+# Trasforma le geometrie in EPSG:32632
+unique_points <- st_transform(unique_points, crs = 32632)
+lim <- st_transform(lim, crs = 32632)
+
 
 # Creazione del grafico base
 map <- ggplot() +
   # Plotta il raster con una palette meno vivace
-  layer_spatial(mappa_median) +
+  layer_spatial(data = mappa_median) +
   # Imposta la scala dei colori del raster con toni più tenui, con valori NA trasparenti
   scale_fill_gradientn(name = "Probability", colors = c("#d9f0d3", "#f7fcb9", "#e34a33"), na.value = "transparent") +
   # Plotta i punti con colori specifici e maggiore dimensione
-  geom_sf(data = DataSpecies_0, aes(color = factor(presence)), size = 3) +
+  geom_sf(data = unique_points, aes(color = factor(presence)), size = 3, lwd = 1) +
   # Definisci i colori manualmente con toni meno vivaci e modifica il nome della legenda
-  scale_color_manual(name = "Occurrences", values = c("0" = "green", "1" = "red")) +
+  scale_color_manual(name = "Presence", values = c("0" = "green", "1" = "red")) +
   # Aggiungi il limite amministrativo
   geom_sf(data = lim, color = "#636363", fill = NA, alpha = 0.7) +
   # Aggiungi la barra di scala in metri
@@ -97,13 +104,24 @@ map <- ggplot() +
   theme(
     legend.position = "right",
     axis.text = element_text(size = 10),
-    axis.title = element_text(size = 14),
+    axis.title.x = element_blank(), # Rimuove il titolo dell'asse x
+    axis.title.y = element_blank(), # Rimuove il titolo dell'asse y
     legend.text = element_text(size = 12), # Riduce le dimensioni del testo della legenda
     legend.title = element_text(size = 14) # Riduce le dimensioni del titolo della legenda
-  )
+  ) +
+  guides(
+    fill = guide_legend(order = 1), # Assegna l'ordine 1 alla legenda "Probability"
+    color = guide_legend(order = 2) # Assegna l'ordine 2 alla legenda "Presence"
+  ) +
+  coord_sf(crs = st_crs(32632), datum = st_crs(32632), expand = FALSE) + # Imposta il sistema di coordinate in EPSG:32632
+  # Aggiungi testo personalizzato in basso a destra
+  annotate("text", x = Inf, y = -Inf, label = "WGS 84 / UTM zone 32N",
+           hjust = 1.1, vjust = -0.75, size = 3.5) +
+  # Aggiungi la bussola nord
+  annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_fancy_orienteering())
 
+# Mostra il grafico
 print(map)
-
 
 # # Aggiunta del poligono mask_wo con riempimento e griglia trasparenti
 # map <- map +

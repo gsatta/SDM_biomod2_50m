@@ -25,7 +25,7 @@ df_filtered$expl.name <- factor(df_filtered$expl.name, levels = customized_order
 # Definisci nuovi nomi per le variabili
 new_names <- c(
   "green" = "Green",
-  "BIO03" = "BIO03 = Isothermality (BIO2/BIO7) * (×100)",
+  "BIO03" = "BIO03 = Isothermality (BIO2/BIO7) * (100)",
   "BIO06" = "BIO06 = Min Temperature of Coldest Month (°C)",
   "soc" = "Soil Organic Carbon (g/kg)",
   "rivers" = "Distance from rivers (m)",
