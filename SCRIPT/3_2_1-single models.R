@@ -71,7 +71,7 @@ myBiomodModelOut <- BIOMOD_Modeling(
   CV.k = 5,
   var.import = 3,
   metric.eval = c("ROC", "TSS", "KAPPA", "ACCURACY", "BIAS", "POD", "FAR",
-                  "SR", "BOYCE"),
+                  "SR", "BOYCE", "MPA"),
   seed.val = 123,
   do.progress = TRUE,
 )
