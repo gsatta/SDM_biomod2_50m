@@ -30,8 +30,9 @@ user.GAM <- list('for_all_datasets' = list(algo = 'GAM.mgcv.gam'))
 
 form.GBM <- bm_MakeFormula(resp.name = myBiomodData@sp.name,
                            expl.var = head(myBiomodData@data.env.var),
-                           type = 's_smoother',
+                           type = 'simple',
                            interaction.level = 0)
+
 user.GBM <- list('for_all_datasets' = list(formula = form.GBM))
 
 form.FDA <- bm_MakeFormula(resp.name = myBiomodData@sp.name,
