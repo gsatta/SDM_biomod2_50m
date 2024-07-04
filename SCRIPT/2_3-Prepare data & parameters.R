@@ -16,11 +16,12 @@ myBiomodData <- BIOMOD_FormatingData(expl.var = myExpl,
                                      resp.var = myResp_train,
                                      eval.resp.var = myResp_test,
                                      resp.name = "Phytophthora",
-                                     PA.nb.rep = 3,
-                                     PA.nb.absences = c(n_PA_3, 100, 1000),
+                                     PA.nb.rep = 20,
+                                     PA.nb.absences =  c(rep(n_PA_3, 10), rep(1000, 10)),
                                      PA.strategy = 'random',
                                      filter.raster = TRUE,
-                                     dir.name = getwd())
+                                     dir.name = getwd(),
+                                     seed.val = 1234)
 myBiomodData
 
 # plot(myBiomodData)
@@ -30,24 +31,24 @@ PA_used <- colnames(myBiomodData@PA.table)
 
 # Definisci i vettori per ciascun modello che indicano quali colonne di pseudo-assenza utilizzare
 {
-CTA <- c("PA1")
-FDA <- c("PA1")
-RF <- c("PA1")
-XGBOOST <- c("PA1")
-MARS <- c("PA2")
-SRE <- c("PA2")
-GLM <- c("PA3")
-GAM <- c("PA3")
-MAXENT <- c("PA3")
-MAXNET <- c("PA3")
-GBM <- c("PA3")
-
+  PA1_10 <- paste0("PA", 1:10)
+  PA11_20 <- paste0("PA", 11:20)
+  
+  # CTA <- PA1_10
+  FDA <- PA1_10
+  RF <- PA1_10
+  RFd <- PA1_10
+  XGBOOST <- PA1_10
+  GLM <- PA11_20
+  GAM <- PA11_20
+  MAXENT <- PA11_20
+  MAXNET <- PA11_20
+  GBM <- PA11_20
 }
 
 # Costruisci la lista models.pa contenente questi vettori per ciascun modello
-models.pa <- list(CTA = CTA, FDA = FDA, GBM = GBM, RF = RF, XGBOOST = XGBOOST, 
-                  MARS = MARS, 
-                  GLM = GLM, GAM = GAM, MAXENT = MAXENT, MAXNET = MAXNET  )
+models.pa <- list(FDA = FDA, GBM = GBM, RF = RF, RFd = RFd, XGBOOST = XGBOOST, 
+                  GLM = GLM, GAM = GAM, MAXENT = MAXENT)
 
 
 

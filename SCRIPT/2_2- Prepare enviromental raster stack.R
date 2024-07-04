@@ -29,7 +29,13 @@ myExpl_0 <- rast("./INPUT/RASTER/environmental_50m.tiff")
 #                              "soc", "sand",
 #                              'roads',  "BIO06", "twi"))
 
-myExpl <- subset(myExpl_0, c("green", "BIO03",
-                             "BIO06", "wo",
-                             'rivers',  "fla", "soc",
-                             "roads"))
+# myExpl <- subset(myExpl_0, c("green", "BIO03",
+#                              "BIO06", "wo",
+#                              'rivers',  "fla", "soc",
+#                              "roads"))
+
+myExpl <- subset(myExpl_0, c("BIO03", "green",
+                             "BIO06", "fla","wo",
+                             'roads', "soc",
+                             "rivers"))
+

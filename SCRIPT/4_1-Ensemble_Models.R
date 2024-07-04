@@ -7,7 +7,7 @@
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
 # # #Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240604_1618_19.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240612_1629_42.models.out"))
 # 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
@@ -21,7 +21,7 @@ myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
                                       em.algo = c('EMmedian', "EMcv"),
                                       metric.select = c('ROC'),
                                       metric.select.thresh = c(0.8),
-                                      metric.select.dataset	= "evaluation",
+                                      metric.select.dataset	= "validation",
                                       metric.eval = c('KAPPA','TSS', 'ROC'),
                                       var.import = 10,
                                       EMci.alpha = 0.05,

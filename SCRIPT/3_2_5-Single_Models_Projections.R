@@ -14,3 +14,15 @@ myBiomodProj <- BIOMOD_Projection(bm.mod = myBiomodModelOut,
                                   output.format = ".tif")
 myBiomodProj
 plot(myBiomodProj)
+
+
+xxx <- as.data.frame(myBiomodModelOut@models.computed)
+
+# Usa sub con espressioni regolari per estrarre l'ultima parte dopo l'ultimo underscore
+last_parts <- sub(".*_", "", models)
+
+# Aggiungi una nuova colonna al data frame
+xxx$models <- last_parts
+
+# Visualizza il risultato
+print(xxx)

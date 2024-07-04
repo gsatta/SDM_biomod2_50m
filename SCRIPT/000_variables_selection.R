@@ -2,7 +2,8 @@
 
 #                             Variable selection
 
-##############################################################################allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
+##############################################################################
+# allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
 library(terra); library(biomod2)
 
 myResp_train <- vect("./INPUT/VECTOR/train_data.gpkg")
@@ -13,26 +14,26 @@ myResp_test <- vect("./INPUT/VECTOR/test_data.gpkg")
 myExpl_0_0 <- rast("./INPUT/RASTER/environmental_50m.tiff")
 
 # Variables      VIF
-# 1      roads 1.157318
-# 2     rivers 1.298344
-# 3     aspect 1.087185
-# 4        fla 1.289173
-# 5      slope 2.260485
-# 6        tpi 1.249363
-# 7        twi 2.310773
-# 8        soc 2.987795
-# 9    texture 1.120391
-# 10       bkd 1.801110
-# 11     BIO03 2.135846
-# 12     BIO04 1.996374
-# 13     BIO06 2.137341
-# 14     green 1.218018
-# 15        wo 1.047390
-  
+# 1      roads 1.148674
+# 2     rivers 1.372676
+# 3     aspect 1.104097
+# 4        fla 1.252920
+# 5      slope 2.182854
+# 6        tpi 1.254763
+# 7        twi 2.235829
+# 8        soc 2.744067
+# 9    texture 1.106225
+# 10       bkd 1.597896
+# 11     BIO03 1.998680
+# 12     BIO06 1.984858
+# 13     BIO15 1.385263
+# 14     green 1.230108
+# 15        wo 1.611164
+
 # Nomi delle variabili non collineari
 non_collinear_vars <- c("roads", "rivers", "aspect", "fla", "slope", "tpi",
-                        "twi", "soc", "texture", "bkd", "BIO03", "BIO04",
-                        "BIO06", "green", "wo")
+                        "twi", "soc", "texture", "bkd", "BIO03", "BIO06",
+                        "BIO15", "green", "wo")
   
 # Seleziona solo le variabili non collineari
 myExpl_0 <- myExpl_0_0[[non_collinear_vars]]
@@ -71,7 +72,6 @@ PA_used <- colnames(myBiomodData@PA.table)
   RF <- c("PA1")
   XGBOOST <- c("PA1")
   MARS <- c("PA2")
-  SRE <- c("PA2")
   GLM <- c("PA3")
   GAM <- c("PA3")
   MAXENT <- c("PA3")
@@ -81,7 +81,7 @@ PA_used <- colnames(myBiomodData@PA.table)
 }
 
 # Costruisci la lista models.pa contenente questi vettori per ciascun modello
-models.pa <- list(CTA = CTA, FDA = FDA, GBM = GBM, RF = RF, XGBOOST = XGBOOST, 
+models.pa <- list(FDA = FDA, GBM = GBM, RF = RF, XGBOOST = XGBOOST, 
                   MARS = MARS, 
                   GLM = GLM, GAM = GAM, MAXENT = MAXENT, MAXNET = MAXNET  )
 allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
@@ -144,11 +144,20 @@ myBiomodModelOut <- BIOMOD_Modeling(
 
 # Get variables importance
 
-var_imp <- get_variables_importance(myBiomodModelOut) # 20240528_1850_52
+myBiomodModelOut
+# Single models
 
-bm_PlotVarImpBoxplot(bm.out = myBiomodModelOut, group.by = c('expl.var', 'algo', 'algo'))
-bm_PlotVarImpBoxplot(bm.out = myBiomodModelOut, group.by = c('expl.var', 'algo', 'run'))
-bm_PlotVarImpBoxplot(bm.out = myBiomodModelOut, group.by = c('algo', 'expl.var', 'run'))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240612_1502_30.models.out"))
+
+myBiomodModelOut <- get(bm_out_file)
+rm(list = c(bm_out_file, 'bm_out_file'))
+
+
+var_imp <- get_variables_importance(myBiomodModelOut) # 20240612_1502_30
+
+# bm_PlotVarImpBoxplot(bm.out = myBiomodModelOut, group.by = c('expl.var', 'algo', 'algo'))
+# bm_PlotVarImpBoxplot(bm.out = myBiomodModelOut, group.by = c('expl.var', 'algo', 'run'))
+# bm_PlotVarImpBoxplot(bm.out = myBiomodModelOut, group.by = c('algo', 'expl.var', 'run'))
 
 library(dplyr)
 

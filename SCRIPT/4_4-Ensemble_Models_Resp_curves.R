@@ -17,7 +17,7 @@ df <- resp_models$tab
 df_filtered <- subset(df, !(expl.name %in% c("wo", "fla")))
 
 # Definisci l'ordine personalizzato dei livelli di expl.name
-customized_order <- c("green", "BIO03", "BIO06", "soc", "rivers", "roads")
+customized_order <- c("green", "BIO03", "BIO06", "soc", "BIO15", "rivers", "roads")
 
 # Converti expl.name in un fattore con ordine personalizzato
 df_filtered$expl.name <- factor(df_filtered$expl.name, levels = customized_order)
@@ -27,6 +27,7 @@ new_names <- c(
   "green" = "Green",
   "BIO03" = "BIO03 = Isothermality (BIO2/BIO7) * (100)",
   "BIO06" = "BIO06 = Min Temperature of Coldest Month (°C)",
+  "BIO15" = "BIO15 = Precipitation Seasonality (Coefficient of Variation)",
   "soc" = "Soil Organic Carbon (g/kg)",
   "rivers" = "Distance from rivers (m)",
   "roads" = "Distance from roads (m)"
@@ -54,7 +55,7 @@ if (!dir.exists("./GRAPHS/")) {
 }
 
 # Salva il grafico in un file nella cartella ./GRAPHS/
-ggsave("./GRAPHS/response_curve.jpg", plot = p_median, width = 10, height = 7, dpi = 500)
+ggsave("./GRAPHS/response_curve_2.jpg", plot = p_median, width = 10, height = 7, dpi = 500)
 
 
 

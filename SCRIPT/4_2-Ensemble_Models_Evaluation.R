@@ -9,7 +9,7 @@
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
 # ## Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240604_1618_19.ensemble.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240612_1629_42.ensemble.models.out"))
 #
 myBiomodEM <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))

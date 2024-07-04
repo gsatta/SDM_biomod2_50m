@@ -9,7 +9,6 @@ library(readr); library(usdm); library(corrplot)
 # Imposta il seed per rendere le analisi ripetibili
 set.seed(999)
 
-
 environmental <- rast("./INPUT/RASTER/environmental_50m.tiff")
 
 # Estrai le coordinate delle celle e i valori di tutti i layer
@@ -117,7 +116,33 @@ corrplot(cor_matrix, method = "color", type = "upper",
          tl.col = "black", tl.srt = 45, tl.cex = 0.7, 
          addCoef.col = "black", number.cex = 0.45)
 
-vif_values_2 <- vifstep(zs_vif_0, th = 10, keep = c('roads', 'rivers')) # è stata esclusa solo bkd
+# vif_values_2 <- vifstep(zs_vif_0, th = 5, keep = c('roads', 'rivers')) # è stata esclusa solo bkd
+# 2 variables from the 17 input variables have collinearity problem: 
+#   
+#   BIO07 BIO04 
+# 
+# After excluding the collinear variables, the linear correlation coefficients ranges between: 
+#   min correlation ( BIO06 ~ fla ):  0.001504005 
+# max correlation ( twi ~ slope ):  -0.5788041 
+# 
+# ---------- VIFs of the remained variables -------- 
+#   Variables      VIF
+# 1      roads 1.148674
+# 2     rivers 1.372676
+# 3     aspect 1.104097
+# 4        fla 1.252920
+# 5      slope 2.182854
+# 6        tpi 1.254763
+# 7        twi 2.235829
+# 8        soc 2.744067
+# 9    texture 1.106225
+# 10       bkd 1.597896
+# 11     BIO03 1.998680
+# 12     BIO06 1.984858
+# 13     BIO15 1.385263
+# 14     green 1.230108
+# 15        wo 1.611164
+
 
 vif_variables_2 <- vif_values_2@results$Variables
 
