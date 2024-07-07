@@ -14,15 +14,28 @@ rm(list = c(bm_out_file, 'bm_out_file'))
 
 ################################################################################
 
+
+built_models <- get_built_models(myBiomodModelOut)
+
+
+# Filtriamo i modelli che terminano con "FDA", "GAM", "GLM" o "MAXENT"
+models.chosen <- built_models[grep("(FDA|GAM|GLM|MAXENT)$", built_models)]
+
+# Visualizziamo i modelli scelti
+print(models.chosen)
+
+
 # Model ensemble models
 myBiomodEM <- BIOMOD_EnsembleModeling(bm.mod = myBiomodModelOut,
-                                      models.chosen = 'all',
+                                      # models.chosen = 'all',
+                                      models.chosen = models.chosen,
                                       em.by = 'all',
-                                      em.algo = c('EMmedian', "EMcv"),
+                                      em.algo = c('EMmedian'),
                                       metric.select = c('ROC'),
                                       metric.select.thresh = c(0.8),
                                       metric.select.dataset	= "validation",
-                                      metric.eval = c('KAPPA','TSS', 'ROC'),
+                                      metric.eval = c('ROC'),
+                                      # metric.eval = c('KAPPA','TSS', 'ROC'),
                                       var.import = 10,
                                       EMci.alpha = 0.05,
                                       EMwmean.decay = 'proportional',

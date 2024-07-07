@@ -71,12 +71,12 @@ myBiomodModelOut <- BIOMOD_Modeling(
   CV.k = 5,
   var.import = 3,
   metric.eval = c("ROC", "TSS", "KAPPA", "ACCURACY", "BIAS", "POD", "FAR",
-                  "SR", "BOYCE", "MPA"),
+                  "SR", "BOYCE"),
   seed.val = 123,
   do.progress = TRUE,
 )
 
-# questo è l'ultimo modelllo da usare: 20240703_1154_02
+ # questo è l'ultimo modelllo da usare: 20240703_1154_02
 
 
 myCalibLines <- get_calib_lines(myBiomodModelOut)

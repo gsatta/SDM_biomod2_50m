@@ -1,0 +1,47 @@
+Fri Jul 05 12:50:54 CEST 2024
+MaxEnt version 3.4.4
+Reading file Back_swd.csv
+readGrid: max memory 477626368, total allocated 128974848, free 106045416, used 22929432, increment 22929432
+Reading samples from Sp_swd.csv
+Read samples: max memory 477626368, total allocated 128974848, free 113537920, used 15436928, increment -7492504
+Making features
+makeFeatures: max memory 477626368, total allocated 128974848, free 111772560, used 17202288, increment 1765360
+Command line used:  environmentallayers=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Back_swd.csv samplesfile=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Sp_swd.csv projectionlayers=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Predictions/Pred_swd.csv outputdirectory=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs outputformat=logistic redoifexists visible=TRUE linear=TRUE quadratic=TRUE product=TRUE threshold=TRUE hinge=TRUE lq2lqptthreshold=80 l2lqthreshold=10 hingethreshold=15 beta_threshold=0 beta_categorical=-1 beta_lqp=-1 beta_hinge=-1 betamultiplier=1 defaultprevalence=0.5 autorun nowarnings notooltips noaddsamplestobackground
+Command line to repeat: java density.MaxEnt nowarnings noprefixes outputformat=logistic outputdirectory=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs projectionlayers=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Predictions/Pred_swd.csv samplesfile=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Sp_swd.csv environmentallayers=D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Back_swd.csv nowarnings notooltips noaskoverwrite threshold noaddsamplestobackground autorun beta_threshold=0.0
+Species: Phytophthora_PA16_RUN2
+Layers: BIO03 BIO06 fla green rivers roads soc wo
+Layertypes: Continuous Continuous Continuous Continuous Continuous Continuous Continuous Continuous
+outputformat: logistic
+outputdirectory: D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs
+projectionlayers: D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Predictions/Pred_swd.csv
+samplesfile: D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Sp_swd.csv
+environmentallayers: D:/DOTTORATO/PROGETTI/PAULLILATINO/PAPER_2/SDM_R_PROJECT/SDM_biomod2_50m/Phytophthora/models/20240705_1142_25/Phytophthora_PA16_RUN2_MAXENT_outputs/Back_swd.csv
+warnings: false
+tooltips: false
+askoverwrite: false
+threshold: true
+addsamplestobackground: false
+autorun: true
+beta_threshold: 0.0
+
+getSamples: max memory 477626368, total allocated 128974848, free 111772560, used 17202288, increment 0
+Phytophthora_PA16_RUN2: 
+Regularization values: linear/quadratic/product: 0.346, categorical: 0.250, threshold: 0.000, hinge: 0.500
+25 samples
+Density: max memory 477626368, total allocated 128974848, free 109377504, used 19597344, increment 2395056
+linearPredictor: max memory 477626368, total allocated 128974848, free 109377504, used 19597344, increment 0
+FeaturedSpace: max memory 477626368, total allocated 128974848, free 109377504, used 19597344, increment 0
+Sequential: max memory 477626368, total allocated 128974848, free 109377504, used 19597344, increment 0
+Initial loss: 6.684611727667927
+Time since start: 1.2
+200: time = 0,997000 loss = 6,073624
+Resulting gain: 0.6109874409740659
+Time since start: 2.269
+Projecting...
+Writing file D:\DOTTORATO\PROGETTI\PAULLILATINO\PAPER_2\SDM_R_PROJECT\SDM_biomod2_50m\Phytophthora\models\20240705_1142_25\Phytophthora_PA16_RUN2_MAXENT_outputs\Phytophthora_PA16_RUN2.csv
+Projecting...
+Reading file Pred_swd.csv
+readGrid: max memory 477626368, total allocated 235929600, free 151533528, used 84396072, increment 64798728
+Writing file D:\DOTTORATO\PROGETTI\PAULLILATINO\PAPER_2\SDM_R_PROJECT\SDM_biomod2_50m\Phytophthora\models\20240705_1142_25\Phytophthora_PA16_RUN2_MAXENT_outputs\Phytophthora_PA16_RUN2_Pred_swd.csv
+Writing file D:\DOTTORATO\PROGETTI\PAULLILATINO\PAPER_2\SDM_R_PROJECT\SDM_biomod2_50m\Phytophthora\models\20240705_1142_25\Phytophthora_PA16_RUN2_MAXENT_outputs\Phytophthora_PA16_RUN2_Pred_swd_clamping.csv
+Ending

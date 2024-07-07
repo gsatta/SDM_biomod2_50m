@@ -7,7 +7,7 @@
 library(gridExtra);library(cowplot);library(ggpubr);library(dplyr); library(biomod2)
 
 # # #Load, if necessary, the previous model
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240704_1446_08.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240705_1142_25.models.out"))
 # 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
@@ -28,10 +28,10 @@ library(gridExtra); library(ggplot2)
 evaluations_df_plot <- evaluations_df[complete.cases(evaluations_df[, c("calibration", "validation", "evaluation")]), ]
 
 # Filtrare solo le righe con le metriche desiderate
-# metrics_to_plot <- c("FAR", "SR", "BOYCE", "ROC", "TSS", "KAPPA", "ACCURACY", "BIAS")
+metrics_to_plot <- c("FAR", "MPA", "BOYCE", "ROC", "TSS", "KAPPA", "ACCURACY", "BIAS")
 
-metrics_to_plot <- c("POD", "FAR", "POFD", "SR", "ACCURACY", "BIAS", "ROC", "TSS",
-                     "KAPPA", "OR", "ORSS", "CSI", "ETS", "BOYCE", "MPA")
+# metrics_to_plot <- c("POD", "FAR", "POFD", "SR", "ACCURACY", "BIAS", "ROC", "TSS",
+#                      "KAPPA", "OR", "ORSS", "CSI", "ETS", "BOYCE", "MPA")
 
 # metrics_to_plot <- c("ROC", "KAPPA", "TSS")
 
