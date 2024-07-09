@@ -55,7 +55,7 @@ if (!dir.exists("./GRAPHS/")) {
 }
 
 # Salva il grafico in un file nella cartella ./GRAPHS/
-ggsave("./GRAPHS/response_curve_2.jpg", plot = p_median, width = 10, height = 7, dpi = 500)
+ggsave("./GRAPHS/response_curve_3.jpg", plot = p_median, width = 10, height = 7, dpi = 500)
 
 
 

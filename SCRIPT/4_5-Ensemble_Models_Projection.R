@@ -5,9 +5,9 @@
 ################################################################################
 library(sf); library(terra)
 
-# # Projsftime# # Project ensemble models (building single projections)
+ #myBiomodEM Project ensemble models (building single projections)
 myBiomodEMProj <- BIOMOD_EnsembleForecasting(bm.em = myBiomodEM,
-                                             proj.name = 'CurrentEM_05-06-2024',
+                                             proj.name = 'CurrentEM_09-07-2024',
                                              new.env = myExpl,
                                              models.chosen = 'all',
                                              metric.binary = 'all',
@@ -18,13 +18,15 @@ myBiomodEMProj <- BIOMOD_EnsembleForecasting(bm.em = myBiomodEM,
 myBiomodEMProj
 plot(myBiomodEMProj)
 
-mappa <- rast("./Phytophthora/proj_CurrentEM_05-06-2024/proj_CurrentEM_05-06-2024_Phytophthora_ensemble.tif")
+mappa <- rast("./Phytophthora/proj_CurrentEM_09-07-2024/proj_CurrentEM_09-07-2024_Phytophthora_ensemble.tif")
 focolai <- read_sf("./INPUT/VECTOR/FOCOLAI.gpkg")
 lim <- read_sf("./INPUT/VECTOR/limite_amministrativo_paulilatino_32632.gpkg")
 unique_points <- read_sf("./INPUT/VECTOR/random_unique_points.gpkg")
 # presences <- read_sf("./INPUT/VECTOR/random_points_presences.gpkg")
 # absences <- read_sf("./INPUT/VECTOR/random_points_absences.gpkg")
 mask_wo <- read_sf("./INPUT/VECTOR/maskWO_def_ok.gpkg")
+rivers <- read_sf("./INPUT/VECTOR/idrografia.gpkg")
+roads <- read_sf("./INPUT/VECTOR/Secondaria.gpkg")
 
 mask_wo$wild_olive <- NULL
 mask_wo$area <- NULL
@@ -32,7 +34,7 @@ mask_wo$area <- NULL
 # mappa_mean <- mappa$Phytophthora_EMmeanByROC_mergedData_mergedRun_mergedAlgo/1000
 
 mappa_median <- mappa$Phytophthora_EMmedianByROC_mergedData_mergedRun_mergedAlgo/1000
-mappa_EMcv <- mappa$Phytophthora_EMcvByROC_mergedData_mergedRun_mergedAlgo
+# mappa_EMcv <- mappa$Phytophthora_EMcvByROC_mergedData_mergedRun_mergedAlgo
 
 # Colori per i punti basati su 'presence'
 # colors <- ifelse(DataSpecies_0$presence == 1, "red", "green")
@@ -45,32 +47,46 @@ points(unique_points, col = c("black", "black")[unique_points$presence + 1], pch
 # Disegna i bordi del poligono
 # lines(focolai, col = "red")
 lines(lim, col = "black")
+lines(rivers, col = "blue", alpha= 0.5)
+lines(roads, col = "black", alpha= 0.5)
 polys(mask_wo, col = "gray",  alpha= 0.5)
 
 
 library(mapview)
 library(RColorBrewer)
 
-# Creiamo una nuova colonna 'color' in unique_points per definire i colori in base a 'presence'
-unique_points$color <- ifelse(unique_points$presence == 0, "green", "red")
-
-# Ora possiamo usare questa colonna per colorare i punti nella mappa
-mapview(mappa_median, 
-        col.regions = rev(brewer.pal(11, "RdYlGn")), 
-        na.color = "transparent",
-        layer.name = "Median Ensemble map",
-        Trim = TRUE) +
+# Definire la mappa
+map <- mapview(mappa_median, 
+               col.regions = rev(brewer.pal(11, "RdYlGn")), 
+               na.color = "transparent",
+               layer.name = "Median Ensemble map",
+               Trim = TRUE) +
   mapview(unique_points, 
-          col.regions = unique_points$color, 
+          col = unique_points$color, 
           legend = TRUE,
-           burst = TRUE) +
+          burst = TRUE) +
   mapview(lim, 
           alpha.regions = 0, 
           col.regions = "transparent",
           lwd = 1,
           layer.name = "Limiti",
           legend = FALSE,
+          popup = FALSE) +
+  mapview(roads_sf, 
+          alpha.regions = 0, 
+          lwd = 1,
+          layer.name = "roads",
+          legend = FALSE,
+          popup = FALSE) +
+  mapview(rivers_sf, 
+          alpha.regions = 0, 
+          lwd = 1,
+          layer.name = "Rivers",
+          legend = FALSE,
           popup = FALSE)
+
+# Visualizza la mappa
+print(map)
 
 
 
@@ -91,12 +107,18 @@ map <- ggplot() +
   layer_spatial(data = mappa_median) +
   # Imposta la scala dei colori del raster con toni più tenui, con valori NA trasparenti
   scale_fill_gradientn(name = "Probability", colors = c("#d9f0d3", "#f7fcb9", "#e34a33"), na.value = "transparent") +
+  # Aggiungi il limite amministrativo
+  geom_sf(data = lim, aes(color = "lim"), fill = NA, alpha = 0.7, show.legend = FALSE) +
+  # Aggiungi i fiumi
+  geom_sf(data = rivers, aes(color = "rivers"), fill = NA, alpha = 0.7) +
+  # Aggiungi le strade secondarie
+  geom_sf(data = roads, aes(color = "roads"), fill = NA, alpha = 0.7) +
   # Plotta i punti con colori specifici e maggiore dimensione
   geom_sf(data = unique_points, aes(color = factor(presence)), size = 3, lwd = 1) +
   # Definisci i colori manualmente con toni meno vivaci e modifica il nome della legenda
-  scale_color_manual(name = "Presence", values = c("0" = "green", "1" = "red")) +
-  # Aggiungi il limite amministrativo
-  geom_sf(data = lim, color = "#636363", fill = NA, alpha = 0.7) +
+  scale_color_manual(name = "Sampling points", 
+                     values = c("0" = "green", "1" = "red", "lim" = "#636363", "rivers" = "#00ffff", "roads" = "#636363"),
+                     labels = c("0" = "Absence", "1" = "Presence", "lim" = "", "rivers" = "Rivers", "roads" = "Secondary Roads")) +
   # Aggiungi la barra di scala in metri
   annotation_scale(location = "bl", text_cex = 1, style = "ticks") +
   # Migliora la leggibilità del tema
@@ -134,7 +156,7 @@ print(map)
 # print(map)
 
 # Salva il grafico in un file nella cartella ./GRAPHS/
-ggsave("./GRAPHS/map_probability.jpg", plot = map, width = 10, height = 7, dpi = 500)
+ggsave("./GRAPHS/map_probability_09-07-24_2.jpg", plot = map, width = 10, height = 7, dpi = 500)
 
 
 
