@@ -100,25 +100,24 @@ library(grid)
 unique_points <- st_transform(unique_points, crs = 32632)
 lim <- st_transform(lim, crs = 32632)
 
-
-# Creazione del grafico base
 map <- ggplot() +
   # Plotta il raster con una palette meno vivace
   layer_spatial(data = mappa_median) +
   # Imposta la scala dei colori del raster con toni più tenui, con valori NA trasparenti
   scale_fill_gradientn(name = "Probability", colors = c("#d9f0d3", "#f7fcb9", "#e34a33"), na.value = "transparent") +
   # Aggiungi il limite amministrativo
-  geom_sf(data = lim, aes(color = "lim"), fill = NA, alpha = 0.7, show.legend = FALSE) +
+  geom_sf(data = lim, aes(color = "#636363"), fill = NA, alpha = 0.7, show.legend = TRUE) +
+  geom_sf(data = focolai, aes(color = "Outbreaks"), alpha = 0, show.legend = TRUE) +
   # Aggiungi i fiumi
-  geom_sf(data = rivers, aes(color = "rivers"), fill = NA, alpha = 0.7) +
-  # Aggiungi le strade secondarie
-  geom_sf(data = roads, aes(color = "roads"), fill = NA, alpha = 0.7) +
+  # geom_sf(data = rivers, aes(color = "rivers"), fill = NA, alpha = 0.7) +
+  # # Aggiungi le strade secondarie
+  # geom_sf(data = roads, aes(color = "roads"), fill = NA, alpha = 0.7) +
   # Plotta i punti con colori specifici e maggiore dimensione
-  geom_sf(data = unique_points, aes(color = factor(presence)), size = 3, lwd = 1) +
+  geom_sf(data = unique_points, aes(color = factor(presence)), size = 1.5, lwd = 1) +
   # Definisci i colori manualmente con toni meno vivaci e modifica il nome della legenda
-  scale_color_manual(name = "Sampling points", 
-                     values = c("0" = "green", "1" = "red", "lim" = "#636363", "rivers" = "#00ffff", "roads" = "#636363"),
-                     labels = c("0" = "Absence", "1" = "Presence", "lim" = "", "rivers" = "Rivers", "roads" = "Secondary Roads")) +
+  scale_color_manual(name = "Sampled points", 
+                     values = c("0" = "green", "1" = "red", "Outbreaks" = "red"),
+                     labels = c("0" = "Absence", "1" = "Presence", "lim" = "", "Outbreaks" = "Outbreaks")) +
   # Aggiungi la barra di scala in metri
   annotation_scale(location = "bl", text_cex = 1, style = "ticks") +
   # Migliora la leggibilità del tema
@@ -132,8 +131,8 @@ map <- ggplot() +
     legend.title = element_text(size = 14) # Riduce le dimensioni del titolo della legenda
   ) +
   guides(
-    fill = guide_legend(order = 1), # Assegna l'ordine 1 alla legenda "Probability"
-    color = guide_legend(order = 2) # Assegna l'ordine 2 alla legenda "Presence"
+    fill = guide_legend(order = 1), # Assegna l
+    color = guide_legend(order = 3) # Assegna l'ordine 2 alla legenda "Sampling points" e "Outbreaks"
   ) +
   coord_sf(crs = st_crs(32632), datum = st_crs(32632), expand = FALSE) + # Imposta il sistema di coordinate in EPSG:32632
   # Aggiungi testo personalizzato in basso a destra
@@ -156,7 +155,7 @@ print(map)
 # print(map)
 
 # Salva il grafico in un file nella cartella ./GRAPHS/
-ggsave("./GRAPHS/map_probability_09-07-24_2.jpg", plot = map, width = 10, height = 7, dpi = 500)
+ggsave("./GRAPHS/map_probability_09-07-24_3.jpg", plot = map, width = 10, height = 7, dpi = 500)
 
 
 

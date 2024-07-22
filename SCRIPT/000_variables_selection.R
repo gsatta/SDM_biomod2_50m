@@ -3,7 +3,7 @@
 #                             Variable selection
 
 ##############################################################################
-# allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
+# allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "RFdf", XGBOOST", "SRE")
 library(terra); library(biomod2)
 
 myResp_train <- vect("./INPUT/VECTOR/train_data.gpkg")
@@ -11,29 +11,29 @@ myResp_train <- vect("./INPUT/VECTOR/train_data.gpkg")
 myResp_test <- vect("./INPUT/VECTOR/test_data.gpkg")
 
 # Load the environmental raster  at 50 m of spatial resolution
-myExpl_0_0 <- rast("./INPUT/RASTER/environmental_50m.tiff")
+myExpl_0_0 <- rast("./INPUT/RASTER/environmental_50m.tif")
 
-# Variables      VIF
-# 1      roads 1.148674
-# 2     rivers 1.372676
-# 3     aspect 1.104097
-# 4        fla 1.252920
-# 5      slope 2.182854
-# 6        tpi 1.254763
-# 7        twi 2.235829
-# 8        soc 2.744067
-# 9    texture 1.106225
-# 10       bkd 1.597896
-# 11     BIO03 1.998680
-# 12     BIO06 1.984858
-# 13     BIO15 1.385263
-# 14     green 1.230108
-# 15        wo 1.611164
+#   Variables      VIF
+# 1      roads 1.143632
+# 2     rivers 1.388255
+# 3     aspect 1.073247
+# 4        fla 1.276774
+# 5      slope 2.224088
+# 6        tpi 1.264534
+# 7        twi 2.245807
+# 8        soc 2.884837
+# 9        bkd 1.422554
+# 10     BIO03 2.221509
+# 11     BIO06 1.958931
+# 12     BIO15 1.421190
+# 13  ndwi2021 1.307304
+# 14     dndvi 1.257369
+# 15        wo 1.618243
 
 # Nomi delle variabili non collineari
 non_collinear_vars <- c("roads", "rivers", "aspect", "fla", "slope", "tpi",
-                        "twi", "soc", "texture", "bkd", "BIO03", "BIO06",
-                        "BIO15", "green", "wo")
+                        "twi", "soc", "bkd", "BIO03", "BIO06",
+                        "BIO15", "ndwi2021", "dndvi", "wo")
   
 # Seleziona solo le variabili non collineari
 myExpl_0 <- myExpl_0_0[[non_collinear_vars]]
@@ -81,10 +81,12 @@ PA_used <- colnames(myBiomodData@PA.table)
 }
 
 # Costruisci la lista models.pa contenente questi vettori per ciascun modello
-models.pa <- list(FDA = FDA, GBM = GBM, RF = RF, XGBOOST = XGBOOST, 
+models.pa <- list(GBM = GBM, RF = RF, XGBOOST = XGBOOST, 
                   MARS = MARS, 
-                  GLM = GLM, GAM = GAM, MAXENT = MAXENT, MAXNET = MAXNET  )
-allModels  <- c("CTA", "FDA", "GAM", "GBM", "GLM", "MARS", "MAXENT", "MAXNET", "RF", "XGBOOST", "SRE")
+                  GLM = GLM, GAM = GAM, MAXENT = MAXENT )
+
+
+allModels  <- c("GAM", "GBM", "GLM", "MARS", "MAXENT", "RF", "XGBOOST")
 
 user.rf <- list('_allData_allRun' = list(type = 'classification', importance = TRUE, 
                                          nodesize = 1, oob.prox = T, 
@@ -147,7 +149,7 @@ myBiomodModelOut <- BIOMOD_Modeling(
 myBiomodModelOut
 # Single models
 
-(bm_out_file <- load("./Phytophthora/Phytophthora.20240612_1502_30.models.out"))
+(bm_out_file <- load("./Phytophthora/Phytophthora.20240717_1526_17.models.out"))
 
 myBiomodModelOut <- get(bm_out_file)
 rm(list = c(bm_out_file, 'bm_out_file'))
