@@ -2,9 +2,9 @@
   <PAMRasterBand band="1">
     <Description>BIO19</Description>
     <Metadata>
-      <MDI key="STATISTICS_MAXIMUM">260.36758422852</MDI>
+      <MDI key="STATISTICS_MAXIMUM">260.36761474609</MDI>
       <MDI key="STATISTICS_MEAN">-9999</MDI>
-      <MDI key="STATISTICS_MINIMUM">183.5418548584</MDI>
+      <MDI key="STATISTICS_MINIMUM">183.54544067383</MDI>
       <MDI key="STATISTICS_STDDEV">-9999</MDI>
     </Metadata>
   </PAMRasterBand>

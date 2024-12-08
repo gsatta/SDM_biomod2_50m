@@ -2,9 +2,9 @@
   <PAMRasterBand band="1">
     <Description>BIO14</Description>
     <Metadata>
-      <MDI key="STATISTICS_MAXIMUM">7.7540111541748</MDI>
+      <MDI key="STATISTICS_MAXIMUM">7.7918214797974</MDI>
       <MDI key="STATISTICS_MEAN">-9999</MDI>
-      <MDI key="STATISTICS_MINIMUM">5.4511437416077</MDI>
+      <MDI key="STATISTICS_MINIMUM">5.4511494636536</MDI>
       <MDI key="STATISTICS_STDDEV">-9999</MDI>
     </Metadata>
   </PAMRasterBand>

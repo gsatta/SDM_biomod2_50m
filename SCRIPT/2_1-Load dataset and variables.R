@@ -37,9 +37,6 @@ myResp_train <- vect("./INPUT/VECTOR/train_data.gpkg")
  
 myResp_test <- vect("./INPUT/VECTOR/test_data.gpkg")
 
-
-
-
 ######################
 
 # 

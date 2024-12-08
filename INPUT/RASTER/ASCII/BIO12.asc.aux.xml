@@ -2,7 +2,7 @@
   <PAMRasterBand band="1">
     <Description>BIO12</Description>
     <Metadata>
-      <MDI key="STATISTICS_MAXIMUM">756.74694824219</MDI>
+      <MDI key="STATISTICS_MAXIMUM">756.74700927734</MDI>
       <MDI key="STATISTICS_MEAN">-9999</MDI>
       <MDI key="STATISTICS_MINIMUM">579.05670166016</MDI>
       <MDI key="STATISTICS_STDDEV">-9999</MDI>

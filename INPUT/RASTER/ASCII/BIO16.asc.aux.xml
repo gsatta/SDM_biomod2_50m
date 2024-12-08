@@ -2,9 +2,9 @@
   <PAMRasterBand band="1">
     <Description>BIO16</Description>
     <Metadata>
-      <MDI key="STATISTICS_MAXIMUM">327.32711791992</MDI>
+      <MDI key="STATISTICS_MAXIMUM">327.32708740234</MDI>
       <MDI key="STATISTICS_MEAN">-9999</MDI>
-      <MDI key="STATISTICS_MINIMUM">257.71478271484</MDI>
+      <MDI key="STATISTICS_MINIMUM">257.71835327148</MDI>
       <MDI key="STATISTICS_STDDEV">-9999</MDI>
     </Metadata>
   </PAMRasterBand>
